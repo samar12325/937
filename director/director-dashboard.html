@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-ar="مدير جميع الأقسام" data-en="Director of All Departments">مدير جميع الأقسام</title>
+
+  <!-- نفس الخطوط المستخدمة -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- ملف التنسيق الرئيسي (نفس الهوم) -->
+  <link rel="stylesheet" href="director-dashboard.css">
+  
+  <!-- Auth helpers -->
+  <script src="../js/auth-helpers.js"></script>
+  <!-- Impersonation banner -->
+  <script src="../js/impersonation-banner.js"></script>
+
+  <!-- تنسيق الأيقونات مثل صفحة الموظف -->
+  <style>
+    /* Header Layout Styles */
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      position: relative;
+    }
+    
+    .header-left {
+      position: absolute;
+      left: 0;
+      display: flex;
+      justify-content: flex-start;
+    }
+    
+    .header-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .header-right {
+      position: absolute;
+      right: 0;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 15px;
+    }
+
+    /* Icon formatting exactly like employee page */
+    .card img {
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 15px;
+      object-fit: contain;
+    }
+    
+    .card-icon-small {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    /* Card hover effects exactly like employee page */
+    .card {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid transparent;
+    }
+    
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      border-color: #3b82f6;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    
+    .card:hover::before {
+      transform: scaleX(1);
+    }
+    
+    .card img {
+      transition: all 0.3s ease;
+      filter: grayscale(0.2);
+    }
+    
+    .card:hover img {
+      transform: scale(1.1) rotate(5deg);
+      filter: grayscale(0) brightness(1.1);
+    }
+    
+    .card h3 {
+      transition: color 0.3s ease;
+    }
+    
+    .card:hover h3 {
+      color: #3b82f6;
+    }
+    
+    .card .btn {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .card .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .card:hover .btn::before {
+      left: 100%;
+    }
+    
+    .card .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+    }
+    
+    /* Align all buttons at the same level like employee page */
+    .card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 250px;
+      text-align: center;
+    }
+    
+    .card .btn {
+      margin: 20px auto;
+      order: 999;
+      align-self: center;
+      width: 80%;
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+    
+    /* Ensure proper spacing between elements */
+    .card img {
+      margin: 10px auto;
+    }
+    
+    .card h3 {
+      margin: 10px auto;
+    }
+    
+    .card p {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 15px 0;
+      padding: 0 15px;
+      text-align: center;
+    }
+    
+    /* Equal margins for cards */
+    .dashboard {
+      padding: 20px;
+      gap: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      justify-items: center;
+    }
+    
+    .card {
+      margin: 0;
+      padding: 20px;
+      width: 100%;
+      max-width: 300px;
+      box-sizing: border-box;
+    }
+  </style>
+
+  <!-- سكربت الصفحة -->
+  <script src="director-dashboard.js" defer></script>
+</head>
+<body class="lang-ar">
+
+  <!-- ===== هيدر مطابق صفحة الموظف ===== -->
+  <header class="header">
+    <div class="header-content">
+      <div class="header-left">
+        <a href="../login/profile.html" class="profile-link">
+          <img src="../icon/patient1.png" class="profile-icon-small" alt="الملف الشخصي">
+          <span data-ar="الملف الشخصي" data-en="Profile">الملف الشخصي</span>
+        </a>
+
+        <button id="notifBtn" class="notif-btn" title="الإشعارات">
+          <svg class="notif-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2c.7 0 1.25.56 1.25 1.25v.51A6.75 6.75 0 0 1 19 10.5v4.06l1.49 2.49c.3.5-.06 1.12-.64 1.12H4.15c-.58 0-.94-.62-.64-1.12L5 14.56V10.5A6.75 6.75 0 0 1 10.75 3.76v-.51C10.75 2.56 11.3 2 12 2zm0 20a2.75 2.75 0 0 1-2.62-2h5.24A2.75 2.75 0 0 1 12 22z"/>
+          </svg>
+          <span id="notifCount" class="notif-count" style="display:none;">0</span>
+        </button>
+
+        <button id="langToggle" class="lang-toggle-btn">
+          <img src="../icon/lang.png" class="lang-icon" alt="اللغة"/>
+          <span id="langText">العربية | English</span>
+        </button>
+      </div>
+      
+      <div class="header-center">
+        <img src="../icon/hospital-logo.png" alt="شعار" class="header-logo"/>
+      </div>
+      
+      <div class="header-right">
+        <div class="header-title" data-ar="بلاغات 937" data-en="Reports 937">بلاغات 937</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== أيقونات البطاقات الأربع بالأعلى ===== -->
+    <section class="dashboard">
+      <!-- تقديم بلاغ جديد -->
+      <div class="card permission-gated" data-permission="submit_complaint">
+        <img src="../icon/plus.png" alt="تقديم بلاغ" class="card-icon">
+        <h3 data-ar="تقديم بلاغ جديد" data-en="Submit New Report">تقديم بلاغ جديد</h3>
+        <p data-ar="قم بتسجيل بلاغ طبي جديد" data-en="Register a new medical report">قم بتسجيل بلاغ طبي جديد</p>
+        <a href="../New complaint/Newcomplaint.html" class="btn" data-ar="تقديم بلاغ" data-en="Submit Report">تقديم بلاغ</a>
+      </div>
+
+      <!-- متابعة البلاغات -->
+      <div class="card permission-gated" data-permission="follow_own_complaint">
+        <img src="../icon/list.png" alt="متابعة البلاغات" class="card-icon">
+        <h3 data-ar="متابعة البلاغات" data-en="Follow Up Reports">متابعة البلاغات</h3>
+        <p data-ar="تتبع حالة بلاغاتك المقدمة" data-en="Track the status of your submitted reports">تتبع حالة بلاغاتك المقدمة</p>
+        <a href="../Complaints-followup/followup.html" class="btn" data-ar="متابعة البلاغات" data-en="Follow Up Reports">متابعة البلاغات</a>
+      </div>
+
+      <!-- الشكاوى المسندة لي -->
+
+      <!-- البلاغات العامة -->
+      <div class="card permission-gated" data-permission="view_public_complaints">
+        <img src="../icon/group.png" alt="البلاغات العامة" class="card-icon">
+        <h3 data-ar="البلاغات العامة" data-en="General Reports">البلاغات العامة</h3>
+        <p data-ar="عرض وإدارة البلاغات العامة" data-en="View and manage general reports">عرض وإدارة البلاغات العامة</p>
+        <a href="../general complaints/general-complaints.html" class="btn" data-ar="عرض البلاغات" data-en="View Reports">عرض البلاغات</a>
+      </div>
+
+      <!-- موظفي القسم -->
+      <div class="card permission-gated" data-permission="department_employees">
+        <img src="../icon/analysis.png" alt="موظفي القسم" class="card-icon">
+        <h3 data-ar="موظفي القسم" data-en="Department Employees">موظفي القسم</h3>
+        <p data-ar="إدارة ومتابعة موظفي القسم" data-en="Manage and monitor department employees">إدارة ومتابعة موظفي القسم</p>
+        <a href="../dept-admin/department-management.html" class="btn" data-ar="عرض الموظفين" data-en="View Employees">عرض الموظفين</a>
+      </div>
+
+      <!-- توزيع البلاغات -->
+      <div class="card permission-gated" data-permission="complaint_distribution">
+        <img src="../icon/fromto.png" alt="توزيع البلاغات" class="card-icon">
+        <h3 data-ar="توزيع البلاغات" data-en="Report Distribution">توزيع البلاغات</h3>
+        <p data-ar="توزيع البلاغات على الأقسام" data-en="Distribute complaints to departments">توزيع البلاغات على الأقسام</p>
+        <a href="complaint-distribution.html" class="btn" data-ar="توزيع البلاغات" data-en="Distribute Reports">توزيع البلاغات</a>
+      </div>
+
+      <!-- توزيع بلاغات الزائر السري -->
+      <div class="card permission-gated" data-permission="secret_visitor_distribute_between_depts" style="display: none;">
+        <img src="../icon/Staaff.png" alt="توزيع بلاغات الزائر السري" class="card-icon">
+        <h3 data-ar="توزيع بلاغات الزائر السري" data-en="Secret Visitor Distribution">توزيع بلاغات الزائر السري</h3>
+        <p data-ar="توزيع ملاحظات الزائر السري على الأقسام المختلفة" data-en="Distribute secret visitor notes to different departments">توزيع ملاحظات الزائر السري على الأقسام المختلفة</p>
+        <a href="../DashBoard/secret-visitor-distribution.html" class="btn" data-ar="توزيع البلاغات" data-en="Distribute Reports">توزيع البلاغات</a>
+      </div>
+
+
+      <!-- توزيع البلاغات للموظفين -->
+      <div class="card permission-gated" data-permission="employee_distribution" style="display: none;">
+        <img src="../icon/users.png" alt="توزيع البلاغات للموظفين" class="card-icon">
+        <h3 data-ar="توزيع البلاغات للموظفين" data-en="Distribute Reports to Employees">توزيع البلاغات للموظفين</h3>
+        <p data-ar="توزيع البلاغات على موظفين محددين في القسم" data-en="Distribute complaints to specific employees in the department">توزيع البلاغات على موظفين محددين في القسم</p>
+        <button onclick="openEmployeeDistribution()" class="btn" data-ar="توزيع للموظفين" data-en="Distribute to Employees">توزيع للموظفين</button>
+      </div>
+
+
+      <!-- لوحة المعلومات -->
+      <div class="card permission-gated" data-permission="access_dashboard">
+        <img src="../icon/chart.png" alt="لوحة المعلومات" class="card-icon">
+        <h3 data-ar="لوحة المعلومات" data-en="Dashboard">لوحة المعلومات</h3>
+        <p data-ar="إحصائيات وتحليلات البلاغات" data-en="Complaint statistics and analytics">إحصائيات وتحليلات البلاغات</p>
+        <a href="../DashBoard/overview.html" class="btn" data-ar="عرض التفاصيل" data-en="View Details">عرض التفاصيل</a>
+      </div>
+      <!-- إدارة الصلاحيات -->
+      <div class="card permission-gated" data-permission="manage_permissions">
+        <img src="../icon/setting.png" alt="إدارة الصلاحيات" class="card-icon">
+        <h3 data-ar="إدارة الصلاحيات" data-en="Permissions Management">إدارة الصلاحيات</h3>
+        <p data-ar="إدارة صلاحيات الموظفين والأدوار" data-en="Manage employee permissions and roles">إدارة صلاحيات الموظفين والأدوار</p>
+        <a href="../superadmin/permissions.html" class="btn" data-ar="إدارة الصلاحيات" data-en="Manage Permissions">إدارة الصلاحيات</a>
+      </div>
+
+      <!-- البلاغات المحذوفة -->
+      <div class="card permission-gated" data-permission="deleted_complaints">
+        <img src="../icon/alert.png" alt="البلاغات المحذوفة" class="card-icon">
+        <h3 data-ar="البلاغات المحذوفة" data-en="Deleted Reports">البلاغات المحذوفة</h3>
+        <p data-ar="إدارة واسترجاع البلاغات المحذوفة من النظام" data-en="Manage and restore deleted complaints from the system">
+          إدارة واسترجاع البلاغات المحذوفة من النظام
+        </p>
+        <a href="../superadmin/deleted-complaints.html" class="btn" data-ar="إدارة المحذوفة" data-en="Manage Deleted">
+          إدارة المحذوفة
+        </a>
+      </div>
+
+      <!-- السجلات -->
+      <div class="card permission-gated" data-permission="records" style="display: none;">
+        <img src="../icon/document.png" alt="السجلات" class="card-icon">
+        <h3 data-ar="السجلات" data-en="Records">السجلات</h3>
+        <p data-ar="الاطلاع على سجلات العمليات والبلاغات" data-en="View operation and complaint records">
+          الاطلاع على سجلات العمليات والبلاغات
+        </p>
+        <a href="../superadmin/logs.html" class="btn" data-ar="عرض السجلات" data-en="View Records">
+          عرض السجلات
+        </a>
+      </div>
+
+      <!-- إدارة المستخدمين -->
+      <div class="card permission-gated" data-permission="user_management" style="display: none;">
+        <img src="../icon/setting.png" alt="إدارة المستخدمين" class="card-icon">
+        <h3 data-ar="إدارة المستخدمين" data-en="User Management">إدارة المستخدمين</h3>
+        <p data-ar="إدارة الحسابات والأدوار والصلاحيات" data-en="Manage accounts, roles, and permissions">
+          إدارة الحسابات والأدوار والصلاحيات
+        </p>
+        <a href="../superadmin/manage-users.html" class="btn" data-ar="إدارة المستخدمين" data-en="User Management">
+          إدارة المستخدمين
+        </a>
+      </div>
+
+      <!-- إدارة الأقسام -->
+      <div class="card permission-gated always-visible" data-permission="department_management">
+        <img src="../icon/analysis.png" alt="إدارة الأقسام" class="card-icon">
+        <h3 data-ar="إدارة الأقسام" data-en="Department Management">إدارة الأقسام</h3>
+        <p data-ar="إدارة ومتابعة جميع أقسام المستشفى" data-en="Manage and monitor all hospital departments">إدارة ومتابعة جميع أقسام المستشفى</p>
+        <a href="departments-staff.html" class="btn" data-ar="إدارة الأقسام" data-en="Manage Departments">إدارة الأقسام</a>
+      </div>
+      <!-- توزيع بلاغات الزائر السري على الموظفين -->
+      <div class="card permission-gated" data-permission="secret_visitor_employee_distribution" style="display:none;">
+        <img src="../icon/SeeAllPublicComp.png" alt="توزيع بلاغات الزائر السري على الموظفين" class="card-icon">
+        <h3 data-ar="توزيع بلاغات الزائر السري على الموظفين" data-en="Distribute Secret Visitor Reports to Employees">توزيع بلاغات الزائر السري على الموظفين</h3>
+        <p data-ar="توزيع بلاغات الزائر السري على الموظفين داخل القسم" data-en="Distribute secret visitor reports to employees within the department">توزيع بلاغات الزائر السري على الموظفين داخل القسم</p>
+        <a href="../dept-admin/dept-secret-visitor-employee-distribution.html" class="btn" data-ar="توزيع البلاغات" data-en="Distribute Reports">توزيع البلاغات</a>
+      </div>
+    </section>
+    
+
+    <!-- ===== مؤشرات الأداء KPIs ===== -->
+    <section class="mini-kpis">
+      <div class="mini-card"><div class="title" data-ar="إجمالي البلاغات" data-en="Total Reports">إجمالي البلاغات</div><div class="value" id="totalComplaintsCard">—</div></div>
+      <div class="mini-card"><div class="title" data-ar="المفتوحة" data-en="Open">المفتوحة</div><div class="value" id="openComplaintsCard">—</div></div>
+      <div class="mini-card"><div class="title" data-ar="قيد المعالجة" data-en="In Progress">قيد المعالجة</div><div class="value" id="inProgressCard">—</div></div>
+      <div class="mini-card"><div class="title" data-ar="المغلقة" data-en="Closed">المغلقة</div><div class="value" id="closedComplaintsCard">—</div></div>
+      <div class="mini-card"><div class="title" data-ar="سجلات اليوم" data-en="Logs Today">سجلات اليوم</div><div class="value" id="kpiLogsToday">—</div></div>
+    </section>
+
+    <!-- زر تحديث -->
+    <section style="display:flex; justify-content:center; margin:12px 0 20px;">
+      <a id="refresh-data-btn" class="btn" style="width:220px; text-align:center;" onclick="refreshDashboardData()" data-ar="تحديث البيانات" data-en="Refresh Data">تحديث البيانات</a>
+    </section>
+
+    <!-- ===== صف الشكاوى (جنباً إلى جنب) ===== -->
+    <div class="complaints-row">
+      <!-- البلاغات المعينة (يمين في RTL) -->
+      <section class="list-card assigned-complaints-card">
+        <div class="table-title" data-ar="البلاغات المعينة" data-en="Assigned Reports">
+          البلاغات المعينة <span class="count-badge" id="assignedCount">0</span>
+        </div>
+        <div id="assigned-complaints-list" class="complaints-list">
+          <!-- قائمة البلاغات المعينة -->
+        </div>
+        <div id="no-assigned" class="empty-state" data-ar="لا توجد شكاوى معينة حالياً" data-en="No assigned complaints currently">
+          لا توجد شكاوى معينة حالياً
+        </div>
+      </section>
+
+      <!-- البلاغات غير المعينة (يسار في RTL) -->
+      <section class="list-card unassigned-complaints-card">
+        <div class="table-title" data-ar="البلاغات غير المعينة" data-en="Unassigned Reports">
+          البلاغات غير المعينة <span class="count-badge urgent" id="unassignedCount">0</span>
+        </div>
+        <div id="unassigned-complaints-list" class="complaints-list">
+          <!-- قائمة البلاغات غير المعينة -->
+        </div>
+        <div id="no-unassigned" class="empty-state" data-ar="جميع البلاغات معينة!" data-en="All complaints assigned!">
+          جميع البلاغات معينة!
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Employee Distribution Modal -->
+  <div id="employeeDistributionModal" class="modal">
+    <div class="modal-content" style="max-width: 90%; width: 1200px;">
+      <div class="modal-header">
+        <h2 data-ar="توزيع البلاغات للموظفين" data-en="Distribute Reports to Employees">توزيع البلاغات للموظفين</h2>
+        <span class="close" onclick="closeModal('employeeDistributionModal')">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="complaints-filters" style="margin-bottom: 20px;">
+          <div class="filter-group">
+            <label data-ar="الحالة:" data-en="Status:">الحالة:</label>
+            <select id="employeeDistributionStatusFilter" class="filter-select">
+              <option value="" data-ar="جميع الحالات" data-en="All Cases">جميع الحالات</option>
+              <option value="جديدة" data-ar="جديدة" data-en="New">جديدة</option>
+              <option value="قيد المعالجة" data-ar="قيد المعالجة" data-en="In Progress">قيد المعالجة</option>
+              <option value="تم الحل" data-ar="تم الحل" data-en="Resolved">تم الحل</option>
+              <option value="مغلقة" data-ar="مغلقة" data-en="Closed">مغلقة</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label data-ar="التوزيع:" data-en="Distribution:">التوزيع:</label>
+            <select id="employeeDistributionAssignmentFilter" class="filter-select">
+              <option value="" data-ar="جميع البلاغات" data-en="All Reports">جميع البلاغات</option>
+              <option value="assigned" data-ar="مخصصة" data-en="Assigned">مخصصة</option>
+              <option value="unassigned" data-ar="غير مخصصة" data-en="Unassigned">غير مخصصة</option>
+            </select>
+          </div>
+          <button onclick="loadEmployeeDistributionComplaints()" class="search-btn" data-ar="تحديث" data-en="Refresh">تحديث</button>
+        </div>
+        
+        <table class="worklist-table">
+          <thead>
+            <tr>
+              <th data-ar="رقم البلاغ" data-en="Report ID">رقم البلاغ</th>
+              <th data-ar="اسم المريض" data-en="Patient Name">اسم المريض</th>
+              <th data-ar="نوع البلاغ" data-en="Report Type">نوع البلاغ</th>
+              <th data-ar="تاريخ الإنشاء" data-en="Created Date">تاريخ الإنشاء</th>
+              <th data-ar="الحالة" data-en="Status">الحالة</th>
+              <th data-ar="المسند إلى" data-en="Assigned To">المسند إلى</th>
+              <th data-ar="الإجراءات" data-en="Actions">الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="employeeDistributionComplaintsTableBody">
+            <!-- Employee distribution complaints data will be loaded here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Individual Assignment Modal (Admin Style) -->
+  <div id="individualAssignmentModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 data-ar="توزيع البلاغ" data-en="Assign Report">Assign Report</h2>
+        <span class="close" onclick="closeIndividualAssignmentModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <!-- Loading State -->
+        <div id="assignmentLoading" class="loading-overlay" style="display: none;">
+          <div class="loading-spinner"></div>
+          <p data-ar="جاري تحميل الموظفين..." data-en="Loading employees...">Loading employees...</p>
+        </div>
+        
+        <div class="form-group">
+          <label for="employeeSelect" data-ar="اختر موظف:" data-en="Select Employee:">Select Employee:</label>
+          <select id="employeeSelect" class="form-control">
+            <option value="">اختر موظف...</option>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button onclick="closeIndividualAssignmentModal()" class="btn-cancel" data-ar="إلغاء" data-en="Cancel">Cancel</button>
+          <button onclick="confirmAssignment()" class="btn-confirm" data-ar="تأكيد التوزيع" data-en="Confirm Assignment">Confirm Assignment</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

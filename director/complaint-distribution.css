@@ -1,0 +1,444 @@
+/* ===== توزيع البلاغات ===== */
+
+:root {
+  --dist-primary: #1e40af;
+  --dist-secondary: #3b82f6;
+  --dist-success: #059669;
+  --dist-warning: #d97706;
+  --dist-danger: #dc2626;
+  --dist-urgent: #ef4444;
+  --dist-muted: #6b7280;
+  --dist-bg: #f8fafc;
+  --dist-card: #ffffff;
+  --dist-border: #e5e7eb;
+  --dist-shadow: rgba(0, 0, 0, 0.1);
+  --dist-radius: 12px;
+}
+
+.distribution-layout {
+  max-width: 1600px;
+  margin: 24px auto;
+  padding: 0 16px;
+  display: grid !important;
+  grid-template-columns: 1fr 400px;
+  gap: 24px;
+  visibility: visible !important;
+  min-height: 500px;
+}
+
+/* التأكد من ظهور المحتوى */
+body { min-height: 100vh; }
+main { display: block !important; visibility: visible !important; }
+
+@media (max-width: 1200px) {
+  .distribution-layout { grid-template-columns: 1fr; gap: 16px; }
+}
+
+/* لوحات */
+.complaints-panel, .assignment-panel {
+  background: var(--dist-card);
+  border: 1px solid var(--dist-border);
+  border-radius: var(--dist-radius);
+  box-shadow: 0 4px 12px var(--dist-shadow);
+  padding: 20px;
+  display: flex !important;
+  flex-direction: column;
+  visibility: visible !important;
+  min-height: 400px;
+}
+
+.panel-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+}
+
+.panel-title { margin: 0; font-size: 20px; font-weight: 700; color: #1f2937; }
+
+/* تبويبات الحالة */
+.status-tabs { display: flex; gap: 4px; background: var(--dist-bg); border-radius: 8px; padding: 4px; }
+
+.tab-btn {
+  padding: 8px 16px; border: none; border-radius: 6px; background: transparent;
+  color: var(--dist-muted); font-weight: 600; font-size: 14px; cursor: pointer; transition: none;
+}
+.tab-btn.active { background: var(--dist-primary); color: #fff; box-shadow: none; }
+
+/* مرشحات */
+.filters-section {
+  margin-bottom: 20px; padding: 16px; background: var(--dist-bg);
+  border-radius: var(--dist-radius); border: 1px solid var(--dist-border);
+}
+.filters-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 12px; }
+.filters-row:last-child { margin-bottom: 0; }
+
+.form-control {
+  height: 40px; border-radius: 8px; border: 1px solid var(--dist-border);
+  padding: 0 12px; transition: none;
+}
+.form-control:focus { border-color: var(--dist-primary); outline: none; box-shadow: none; }
+
+/* حاوي البلاغات */
+.complaints-container { display: flex; flex-direction: column; gap: 16px; }
+
+.complaints-actions {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 16px; background: var(--dist-bg); border-radius: 8px; border: 1px solid var(--dist-border);
+}
+.selection-info { display: flex; gap: 4px; align-items: center; font-weight: 600; color: var(--dist-primary); }
+.bulk-actions { display: flex; gap: 8px; }
+
+/* قائمة البلاغات */
+.complaints-list {
+  display: flex; flex-direction: column; gap: 8px;
+  max-height: 60vh; overflow-y: auto;
+}
+
+.complaint-row {
+  display: grid; grid-template-columns: 40px 1fr auto auto auto;
+  gap: 12px; align-items: center; padding: 16px; background: #fff;
+  border: 1px solid var(--dist-border); border-radius: 8px; transition: none; cursor: pointer;
+}
+/* تبقى حالة الاختيار فقط */
+.complaint-row.selected {
+  border-color: var(--dist-primary);
+  background: linear-gradient(135deg, #eff6ff, #ffffff);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.complaint-checkbox { width: 18px; height: 18px; cursor: pointer; }
+.complaint-info { min-width: 0; }
+.complaint-title {
+  font-weight: 700; font-size: 15px; color: #1f2937; margin-bottom: 4px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.complaint-meta { display: flex; gap: 8px; font-size: 12px; color: var(--dist-muted); flex-wrap: wrap; }
+
+.priority-badge { padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.priority-badge.عاجل { background: rgba(239, 68, 68, 0.1); color: var(--dist-urgent); }
+.priority-badge.عالية { background: rgba(217, 119, 6, 0.1); color: var(--dist-warning); }
+.priority-badge.متوسطة { background: rgba(59, 130, 246, 0.1); color: var(--dist-primary); }
+.priority-badge.منخفضة { background: rgba(107, 114, 128, 0.1); color: var(--dist-muted); }
+
+.age-badge { padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; background: var(--dist-bg); color: var(--dist-muted); }
+.category-badge { padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; background: rgba(5,150,105,0.1); color: var(--dist-success); }
+
+.details-badge, .followup-badge {
+  padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: none; border: none; margin: 2px;
+}
+.details-badge { 
+  background-color: #3498db; /* لون أزرق للتفاصيل */
+  color: #fff;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.details-badge:hover {
+  background-color: #2980b9;
+}
+.followup-badge { background: rgba(5,150,105,0.1); color: #059669; }
+
+.complaint-actions { display: flex; gap: 4px; align-items: center; }
+
+/* لوحة التعيين */
+.assignment-form { display: flex; flex-direction: column; gap: 20px; }
+
+.selected-complaints-info {
+  background: var(--dist-bg); border-radius: var(--dist-radius);
+  padding: 16px; border: 1px solid var(--dist-border);
+}
+.selected-complaints-info h4 { margin: 0 0 12px; font-size: 16px; font-weight: 700; color: #1f2937; }
+
+.selected-list { display: flex; flex-direction: column; gap: 8px; }
+.selected-complaint-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 12px; background: #fff; border-radius: 6px; border: 1px solid var(--dist-border);
+}
+.selected-complaint-title {
+  font-weight: 600; font-size: 14px; color: #1f2937;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;
+}
+.remove-selected { background: none; border: none; color: var(--dist-danger); cursor: pointer; padding: 4px; border-radius: 4px; transition: none; }
+
+/* صندوق الاقتراح */
+.suggestion-box { background: linear-gradient(135deg,#f0f9ff,#e0f2fe); border: 1px solid #bae6fd; border-radius: var(--dist-radius); padding: 16px; }
+.suggestion-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.suggestion-header h5 { margin: 0; font-size: 16px; font-weight: 700; color: var(--dist-primary); }
+.suggestion-content { margin-bottom: 12px; font-size: 14px; line-height: 1.5; }
+.suggested-assignment { background: #fff; border-radius: 8px; padding: 12px; border: 1px solid #bae6fd; margin-bottom: 12px; }
+.suggested-dept, .suggested-employee { font-weight: 600; color: var(--dist-primary); }
+.suggestion-reason { font-style: italic; color: var(--dist-muted); margin-top: 8px; }
+
+/* التعيين اليدوي */
+.manual-assignment { background: #fff; border: 1px solid var(--dist-border); border-radius: var(--dist-radius); padding: 16px; }
+.manual-assignment h5 { margin: 0 0 16px; font-size: 16px; font-weight: 700; color: #1f2937; }
+.assignment-steps { display: flex; flex-direction: column; gap: 16px; }
+.step { display: flex; flex-direction: column; gap: 6px; }
+.step label { font-weight: 600; font-size: 14px; color: #374151; }
+.form-hint { font-size: 12px; color: var(--dist-muted); font-style: italic; }
+
+.assignment-actions {
+  display: flex; gap: 12px; justify-content: flex-end;
+  margin-top: 20px; border-top: 1px solid var(--dist-border); padding-top: 16px;
+}
+
+/* أزرار */
+.btn {
+  padding: 10px 16px; border-radius: 8px; border: 1px solid;
+  font-weight: 600; cursor: pointer; transition: none; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.btn-primary { background: var(--dist-primary); border-color: var(--dist-primary); color: #fff; }
+.btn-primary:disabled { background: var(--dist-muted); border-color: var(--dist-muted); cursor: not-allowed; }
+.btn-secondary { background: var(--dist-bg); border-color: var(--dist-border); color: var(--dist-muted); }
+
+/* حالات فارغة وتحميل */
+.empty-state, .loading-state, .hint {
+  padding: 24px; text-align: center; color: var(--dist-muted);
+  border: 1px dashed var(--dist-border); border-radius: 8px; margin-top: 16px;
+}
+.loading-state { border-color: var(--dist-primary); color: var(--dist-primary); }
+.hint { background: var(--dist-bg); }
+
+/* Toast */
+.toast {
+  position: fixed; top: 20px; right: 20px; background: var(--dist-success);
+  color: #fff; padding: 12px 16px; border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1001;
+  transform: translateX(100%); transition: transform 0.3s ease;
+}
+.toast.show { transform: translateX(0); }
+.toast.error { background: var(--dist-danger); }
+
+/* تحسينات للشاشات الصغيرة */
+@media (max-width: 768px) {
+  .panel-header { flex-direction: column; align-items: stretch; }
+  .status-tabs { justify-content: center; }
+  .filters-row { grid-template-columns: 1fr; }
+  .complaint-row { grid-template-columns: 1fr; gap: 8px; text-align: center; }
+  .complaints-actions { flex-direction: column; gap: 12px; align-items: stretch; }
+  .assignment-actions { flex-direction: column; }
+}
+
+/* تحسينات الوصول */
+.btn:focus-visible, .form-control:focus-visible, .tab-btn:focus-visible, .complaint-row:focus-visible {
+  outline: none; box-shadow: none;
+}
+
+/* تمرير مخصص */
+.complaints-list::-webkit-scrollbar { width: 6px; }
+.complaints-list::-webkit-scrollbar-track { background: var(--dist-bg); border-radius: 3px; }
+.complaints-list::-webkit-scrollbar-thumb { background: var(--dist-border); border-radius: 3px; }
+.complaints-list::-webkit-scrollbar-thumb:hover { background: var(--dist-muted); }
+
+/* تأثيرات الحركة */
+.complaint-row { animation: fadeInUp 0.4s ease-out; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* أنماط RTL */
+html[dir="rtl"] .toast { right: auto; left: 20px; transform: translateX(-100%); }
+html[dir="rtl"] .toast.show { transform: translateX(0); }
+
+/* =========================
+   إلغاء أي تغيّر Hover/Focus/Active
+   وتجاوز ملفات خارجية (مثل superadmin.css)
+   ========================= */
+
+/* الروابط والأزرار والحاويات القابلة للنقر */
+a, a:link, a:visited, a:hover, a:focus, a:active,
+button, button:hover, button:focus, button:active,
+.btn:hover, .btn:focus, .btn:active,
+.tab-btn:hover, .tab-btn:focus, .tab-btn:active,
+.complaint-row:hover, .complaint-row:focus, .complaint-row:active,
+.details-badge:hover, .details-badge:focus, .details-badge:active,
+.followup-badge:hover, .followup-badge:focus, .followup-badge:active,
+.remove-selected:hover, .remove-selected:focus, .remove-selected:active,
+.card:hover, .card:focus, .card:active,
+.header a:hover, .header a:focus, .header a:active,
+.back-button a:hover, .back-button a:focus, .back-button a:active {
+  background: inherit !important;
+  color: inherit !important;
+  border-color: inherit !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+/* إزالة الهايلايت الأزرق على اللمس في كروم/أندرويد */
+*, *::before, *::after { -webkit-tap-highlight-color: transparent !important; }
+
+/* إزالة أي outline افتراضي */
+*:focus, *:active, *:focus-visible { outline: none !important; box-shadow: none !important; }
+
+/* في حال وجود قواعد تعطي لون للنص داخل الروابط */
+a .back-icon, a img { filter: none !important; }
+
+/* تثبيت لون الروابط ليطابق الأب */
+a, a:link, a:visited { color: inherit !important; }
+
+/* ==== UX polish (يحافظ على الألوان الحالية) ==== */
+:root { --dist-radius-lg: 16px; }
+
+/* كروت أنعم */
+.complaints-panel, .assignment-panel { border-radius: var(--dist-radius-lg); }
+
+/* رأس اللوحة ثابت مع خط سفلي خفيف */
+.panel-header{
+  position: sticky; top: -1px; z-index: 2;
+  background: var(--dist-card);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--dist-border);
+}
+
+/* شريط إجراءات القائمة ثابت تحت الرأس */
+.complaints-actions{ position: sticky; top: 64px; z-index: 1; }
+
+/* مسافات أفضل بين الصفوف */
+.complaints-list{ gap: 12px; }
+
+/* شبكة صف البلاغ: أعمدة أوضح + تأثير بسيط عند المرور */
+.complaint-row{
+  grid-template-columns: 36px minmax(220px,1fr) 120px 120px auto;
+  border-radius: 10px;
+  transition: box-shadow .12s ease, transform .12s ease;
+}
+.complaint-row:hover{
+  box-shadow: 0 6px 16px var(--dist-shadow);
+  transform: translateY(-1px);
+}
+
+/* إبراز هوية البلاغ والمريض قليلاً */
+.complaint-id, .complaint-patient{ color:#111827; font-weight:600; }
+.complaint-patient{ opacity:.85; }
+
+/* شارات أوضح بحد خفيف */
+.category-badge, .priority-badge, .age-badge{ border:1px solid var(--dist-border); }
+
+/* أزرار الإجراءات: نفس اللون، حواف أنعم، hover واضح */
+.details-badge, .followup-badge{ border-radius: 8px; padding: 6px 10px; }
+.details-badge{
+  background: var(--dist-secondary); /* نفس الأزرق المستخدم */
+  color:#fff;
+}
+.details-badge:hover{ background:#2563eb; } /* درجة أغمق من نفس العائلة */
+.followup-badge{
+  background: rgba(5,150,105,.08);
+  border:1px solid rgba(5,150,105,.25);
+  color:#059669;
+}
+
+/* هواتف وتابلت: الصف بطاقة كاملة مع محاذاة مناسبة */
+@media (max-width: 900px){
+  .complaint-row{ grid-template-columns: 1fr; text-align:start; }
+  .complaints-actions{ justify-content:flex-start; }
+}
+
+/* تحسين الوصول: إظهار إطار تركيز واضح */
+button:focus-visible, .tab-btn:focus-visible, .form-control:focus-visible, .complaint-row:focus-visible{
+  outline: 2px solid var(--dist-secondary) !important;
+  outline-offset: 2px;
+}
+
+/* إعادة تفعيل تأثيرات hover/focus داخل هذه الصفحة فقط
+   (لأن عندك بلوك عام يلغيه بكل !important) */
+main.distribution-layout a:hover,
+main.distribution-layout button:hover{
+  background: initial !important;
+  color: initial !important;
+  border-color: initial !important;
+}
+
+/* ثم نصرّح بالهوفر المرغوب للتبويبات */
+.status-tabs .tab-btn.active,
+.status-tabs .tab-btn:hover{
+  background: var(--dist-primary) !important;
+  color:#fff !important;
+}
+
+/* ==== تحسين تنسيق صفحة توزيع البلاغات ==== */
+
+/* الكروت */
+.complaints-panel, .assignment-panel {
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  padding: 24px;
+}
+
+/* رأس اللوحة */
+.panel-header {
+  position: sticky;
+  top: 0;
+  background: var(--dist-card);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--dist-border);
+  z-index: 5;
+}
+
+/* تبويبات الحالة */
+.status-tabs {
+  gap: 8px;
+}
+.tab-btn {
+  transition: background 0.2s, color 0.2s;
+}
+.tab-btn:hover:not(.active) {
+  background: rgba(30,64,175,0.08); /* خفيف من لون الأساسي */
+  color: var(--dist-primary);
+}
+
+/* صف البلاغ */
+.complaint-row {
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+.complaint-row:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+/* الشارات */
+.category-badge, .priority-badge, .age-badge {
+  border: 1px solid var(--dist-border);
+  padding: 3px 8px;
+  border-radius: 8px;
+}
+
+/* زر التفاصيل */
+.details-badge {
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.details-badge:hover {
+  background: #2563eb; /* أزرق أغمق من نفس العائلة */
+}
+
+/* زر المتابعة */
+.followup-badge {
+  border: 1px solid rgba(5,150,105,0.25);
+  border-radius: 8px;
+}
+.followup-badge:hover {
+  background: rgba(5,150,105,0.15);
+}
+
+/* أزرار أساسية */
+.btn {
+  transition: background 0.2s, transform 0.1s;
+}
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+.btn:active {
+  transform: translateY(0);
+}
+
+/* إعادة تفعيل هوفر داخل الصفحة فقط */
+main.distribution-layout a:hover,
+main.distribution-layout button:hover {
+  background: initial !important;
+  color: initial !important;
+  border-color: initial !important;
+}

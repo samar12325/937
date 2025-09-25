@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Tajawal:wght@400;500;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <!-- Chart.js Datalabels -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <!-- jsPDF + html2canvas + AutoTable (لازم لـ PDF) -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.3/dist/jspdf.plugin.autotable.min.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="overview.css">
+</head>
+<body class="flex h-screen overflow-hidden lang-ar">
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-title" data-ar="بلاغات 937" data-en="Reports 937">بلاغات 937</div>
+            <img src="/icon/hospital-logo.png" alt="شعار المستشفى" class="header-logo">
+            <button id="langToggle" class="lang-toggle-btn">
+                <img src="/icon/lang.png" alt="language" class="lang-icon" />
+                <span id="langText">العربية | English</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside>
+        <ul class="sidebar-menu">
+            <li><a href="/login/login.html" class="menu-link" data-ar="الصفحة الرئيسية" data-en="Home Page">الصفحة الرئيسية</a></li>
+            <li><a href="overview.html" class="menu-link active" data-ar="نظرة عامة" data-en="Overview">نظرة عامة</a></li>
+            <li><a href="report-937.html" class="menu-link " data-ar="مؤشر بلاغات 937" data-en="937 Report Index">مؤشر بلاغات 937</a></li>
+            <li><a href="misconduct.html" class="menu-link" data-ar="بلاغات سوء التعامل" data-en="Misconduct Reports">بلاغات سوء التعامل</a></li>
+            <li><a href="pressganey.html" class="menu-link" data-ar="مؤشر برسجيني " data-en="Press Ganey Index">مؤشر برسجيني </a></li>
+            <li><a href="inperson-complaints.html" class="menu-link" data-ar="مؤشر البلاغات الحضورية" data-en="In-person Complaints">مؤشر البلاغات الحضورية</a></li>
+            <li><a href="secret-visitor.html" class="menu-link" data-ar="ملاحظات الزائر السري" data-en="Secret Visitor Notes">ملاحظات الزائر السري</a></li>
+            <li><a href="general-requests.html" class="menu-link" data-ar="مؤشر الطلبات العامة" data-en="General Requests Index">مؤشر الطلبات العامة</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main -->
+    <div class="flex-1 flex flex-col p-4 md:p-8 overflow-auto" style="margin-right: 250px; margin-top: 75px;">
+        <!-- Top Stats Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center text-center transform hover:scale-105 transition-transform">
+                <i class="fas fa-chart-pie text-blue-500 text-2xl mb-2"></i>
+                <p class="text-sm text-gray-500 mb-1" data-ar="نسبة الشفافية" data-en="Transparency Rate">نسبة الشفافية</p>
+                <p class="text-2xl font-bold text-blue-600" id="transparencyRate">جاري التحميل...</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center text-center transform hover:scale-105 transition-transform">
+                <i class="fas fa-hourglass-half text-yellow-500 text-2xl mb-2"></i>
+                <p class="text-sm text-gray-500 mb-1" data-ar="قيد المراجعة" data-en="Under Review">قيد المراجعة</p>
+                <p class="text-2xl font-bold text-yellow-600" id="underReview">جاري التحميل...</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center text-center transform hover:scale-105 transition-transform">
+                <i class="fas fa-plus-circle text-green-500 text-2xl mb-2"></i>
+                <p class="text-sm text-gray-500 mb-1" data-ar="بلاغ جديد" data-en="New Report">بلاغ جديد</p>
+                <p class="text-2xl font-bold text-green-600" id="newComplaint">جاري التحميل...</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center text-center transform hover:scale-105 transition-transform">
+                <i class="fas fa-redo-alt text-orange-500 text-2xl mb-2"></i>
+                <p class="text-sm text-gray-500 mb-1" data-ar="البلاغات المتكررة" data-en="Repeated Reports">البلاغات المتكررة</p>
+                <p class="text-2xl font-bold text-orange-600" id="repeatedComplaints">جاري التحميل...</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center text-center transform hover:scale-105 transition-transform">
+                <i class="fas fa-list-alt text-red-500 text-2xl mb-2"></i>
+                <p class="text-sm text-gray-500 mb-1" data-ar="إجمالي البلاغات" data-en="Total Reports">إجمالي البلاغات</p>
+                <p class="text-2xl font-bold text-red-600" id="totalComplaints">جاري التحميل...</p>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex flex-wrap justify-end gap-4 mb-8">
+            <!-- Day -->
+            <div class="custom-select-wrapper">
+                <div class="custom-select" id="daySelect">
+                    <span id="selectedDay" data-ar="اختر اليوم" data-en="Choose Day">اختر اليوم</span>
+                    <i class="fas fa-chevron-down text-gray-500"></i>
+                </div>
+                <div class="custom-select-options" id="dayOptions">
+                    <div class="custom-select-option" data-value="today" data-ar="اليوم" data-en="Today">اليوم</div>
+                    <div class="custom-select-option" data-value="yesterday" data-ar="أمس" data-en="Yesterday">أمس</div>
+                    <div class="custom-select-option" data-value="last7" data-ar="آخر 7 أيام" data-en="Last 7 Days">آخر 7 أيام</div>
+                    <div class="custom-select-option" data-value="last30" data-ar="آخر 30 يومًا" data-en="Last 30 Days">آخر 30 يومًا</div>
+                </div>
+            </div>
+            <!-- Month -->
+            <div class="custom-select-wrapper">
+                <div class="custom-select" id="monthSelect">
+                    <span id="selectedMonth" data-ar="اختر الشهر" data-en="Choose Month">اختر الشهر</span>
+                    <i class="fas fa-chevron-down text-gray-500"></i>
+                </div>
+                <div class="custom-select-options" id="monthOptions">
+                    <div class="custom-select-option" data-value="jan" data-ar="يناير" data-en="January">يناير</div>
+                    <div class="custom-select-option" data-value="feb" data-ar="فبراير" data-en="February">فبراير</div>
+                    <div class="custom-select-option" data-value="mar" data-ar="مارس" data-en="March">مارس</div>
+                    <div class="custom-select-option" data-value="apr" data-ar="أبريل" data-en="April">أبريل</div>
+                    <div class="custom-select-option" data-value="may" data-ar="مايو" data-en="May">مايو</div>
+                    <div class="custom-select-option" data-value="jun" data-ar="يونيو" data-en="June">يونيو</div>
+                    <div class="custom-select-option" data-value="jul" data-ar="يوليو" data-en="July">يوليو</div>
+                    <div class="custom-select-option" data-value="aug" data-ar="أغسطس" data-en="August">أغسطس</div>
+                    <div class="custom-select-option" data-value="sep" data-ar="سبتمبر" data-en="September">سبتمبر</div>
+                    <div class="custom-select-option" data-value="oct" data-ar="أكتوبر" data-en="October">أكتوبر</div>
+                    <div class="custom-select-option" data-value="nov" data-ar="نوفمبر" data-en="November">نوفمبر</div>
+                    <div class="custom-select-option" data-value="dec" data-ar="ديسمبر" data-en="December">ديسمبر</div>
+                </div>
+            </div>
+            <!-- Quarter -->
+            <div class="custom-select-wrapper">
+                <div class="custom-select" id="quarterSelect">
+                    <span id="selectedQuarter" data-ar="ربع سنوي" data-en="Quarterly">ربع سنوي</span>
+                    <i class="fas fa-chevron-down text-gray-500"></i>
+                </div>
+                <div class="custom-select-options" id="quarterOptions">
+                    <div class="custom-select-option" data-value="q1" data-ar="الربع الأول" data-en="Q1">الربع الأول</div>
+                    <div class="custom-select-option" data-value="q2" data-ar="الربع الثاني" data-en="Q2">الربع الثاني</div>
+                    <div class="custom-select-option" data-value="q3" data-ar="الربع الثالث" data-en="Q3">الربع الثالث</div>
+                    <div class="custom-select-option" data-value="q4" data-ar="الربع الرابع" data-en="Q4">الربع الرابع</div>
+                </div>
+            </div>
+            <!-- Custom Date -->
+            <div class="custom-select-wrapper">
+                <div class="custom-select" id="customDateSelect">
+                    <span id="selectedCustomDate" data-ar="تخصيص التاريخ" data-en="Custom Date">تخصيص التاريخ</span>
+                    <i class="fas fa-chevron-down text-gray-500"></i>
+                </div>
+                <div class="custom-select-options" id="customDateOptions">
+                    <div class="custom-select-option" data-value="range" data-ar="تحديد نطاق" data-en="Select Range">تحديد نطاق</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="chart-container mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-gray-800 text-center" data-ar="أكثر البلاغات تكراراً" data-en="Most Frequent Reports">أكثر البلاغات تكراراً</h2>
+                <button id="refreshBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center text-sm">
+                    <i class="fas fa-sync-alt ml-2"></i>
+                    <span data-ar="تحديث البيانات" data-en="Refresh Data">تحديث البيانات</span>
+                </button>
+            </div>
+
+            <div class="relative w-full" style="height: 300px;">
+                <canvas id="topComplaintsChart"></canvas>
+
+                <!-- ✅ رسالة لا توجد بيانات (تختفي تلقائياً عند توفر بيانات) -->
+                <div id="noDataMsg"
+                     class="hidden absolute inset-0 flex items-center justify-center text-gray-500 font-semibold pointer-events-none">
+                     لا توجد بلاغات في هذه الفترة
+                </div>
+            </div>
+        </div>
+
+        <!-- Repeated Complaints Alert -->
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-triangle text-yellow-600 text-2xl"></i>
+                </div>
+                <div class="mr-3">
+                    <h3 class="text-lg font-semibold text-yellow-800 mb-2" data-ar="تنبيه: البلاغات المتكررة" data-en="Alert: Repeated Reports">تنبيه: البلاغات المتكررة</h3>
+                    <p class="text-yellow-700" data-ar="يوجد بلاغات متكررة تحتاج إلى مراجعة عاجلة. يرجى مراجعة هذه البلاغات واتخاذ الإجراءات اللازمة لتحسين الخدمة." data-en="There are repeated reports that need urgent review. Please review these reports and take necessary actions to improve service.">
+                        يوجد بلاغات متكررة تحتاج إلى مراجعة عاجلة. يرجى مراجعة هذه البلاغات واتخاذ الإجراءات اللازمة لتحسين الخدمة.
+                    </p>
+                    <div class="mt-3">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                            <i class="fas fa-redo-alt ml-1"></i>
+                            <span data-ar="عدد البلاغات المتكررة:" data-en="Repeated Reports Count:">عدد البلاغات المتكررة:</span>
+                            <span id="repeatedComplaintsCount" class="font-bold mr-1">0</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export -->
+        <div class="flex justify-center mt-8">
+            <!-- موجود: زر اكسل -->
+            <button id="exportReportBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-lg flex items-center permission-gated" data-permission="reports_export" style="display: none;">
+                <i class="fas fa-download ml-2"></i>
+                <span data-ar="تصدير التقرير" data-en="Export Report">تصدير التقرير</span>
+            </button>
+
+            <!-- جديد: زر PDF احترافي -->
+            <button id="exportOverviewPdfBtn" class="ml-3 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-full shadow-lg flex items-center permission-gated" data-permission="reports_export" style="display:none;">
+                <i class="fas fa-file-signature ml-2"></i>
+                <span data-ar="تصدير PDF " data-en="Export Pro PDF">تصدير PDF </span>
+            </button>
+        </div>
+    </div>
+
+    <!-- JS -->
+     <script>
+  (function () {
+    // استخدمي نفس التخزين عندك: localStorage.user يحتوي RoleID
+    function redirectByRole() {
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (!user) return '/login/login.html';
+
+      const roleId = Number(user.RoleID || user.roleId);
+      if (roleId === 1) return '/superadmin/superadmin-home.html'; // سوبر أدمن
+      if (roleId === 2) return '/employee/employee-home.html';   // موظف
+      if (roleId === 3) return '/dept-admin/dept-admin.html';  
+      return '/login/login.html'; // احتياطي
+    }
+
+    // كل روابط "الصفحة الرئيسية" الموجودة في الشريط الجانبي
+    const homeLinks = document.querySelectorAll(
+      'aside .sidebar-menu a.menu-link[href$="/login/login.html"], aside .sidebar-menu a.menu-link[data-en="Home Page"], aside .sidebar-menu a.menu-link[data-ar="الصفحة الرئيسية"]'
+    );
+
+    homeLinks.forEach(a => {
+      // خَلّي النقر يوجّه حسب الدور
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = redirectByRole();
+      });
+
+      // (اختياري) عدّلي الـ href الظاهر للـ Hover/Copy
+      a.setAttribute('href', redirectByRole());
+    });
+  })();
+</script>
+
+    <script src="overview.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-ar="نظام بلاغات قسم تجربة المريض" data-en="Patient Experience Reports System">نظام بلاغات قسم تجربة المريض</title>
+  <link rel="stylesheet" href="login.css"/>
+
+  <!-- خط عربي -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <!-- خط إنجليزي serif -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-content">
+      <div class="header-title" data-ar="بلاغات 937" data-en="Reports 937">بلاغات 937</div>
+      <img src="/icon/hospital-logo.png" alt="شعار المستشفى" class="header-logo">
+      <button id="langToggle" class="lang-toggle-btn">
+        <img src="/icon/lang.png" alt="language" class="lang-icon" />
+        <span id="langText">العربية | English</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="container">
+    <h2 data-ar="نظام بلاغات قسم تجربة المريض" data-en="Patient Experience Reports System">نظام بلاغات قسم تجربة المريض</h2>
+
+    <div class="tabs">
+      <button id="loginTab" class="active" onclick="showTab('login')" data-ar="مستخدم حالي" data-en="Existing User">مستخدم حالي</button>
+      <button id="registerTab" onclick="showTab('register')" data-ar="مستخدم جديد" data-en="New User">مستخدم جديد</button>
+    </div>
+
+    <!-- نموذج تسجيل الدخول -->
+    <form id="loginForm" class="form">
+      <input type="text" id="email"
+             placeholder="أدخل اسم المستخدم أو البريد الإلكتروني"
+             data-ar-placeholder="أدخل اسم المستخدم أو البريد الإلكتروني"
+             data-en-placeholder="Enter Username or Email" required>
+      <input type="password" id="password"
+             placeholder="أدخل كلمة المرور"
+             data-ar-placeholder="أدخل كلمة المرور"
+             data-en-placeholder="Enter Password" required>
+      <a href="forgot-password.html" class="forgot"
+         data-ar="نسيت كلمة المرور؟"
+         data-en="Forgot Password">نسيت كلمة المرور؟</a>
+      <button type="submit" class="btn"
+              data-ar="تسجيل الدخول"
+              data-en="Login">تسجيل الدخول</button>
+    </form>
+
+    <!-- نموذج تسجيل جديد -->
+    <form id="registerForm" class="form" style="display: none;">
+      <input type="text" id="regName"
+             placeholder="اسم الموظف"
+             data-ar-placeholder="اسم الموظف"
+             data-en-placeholder="Employee Name" required>
+
+      <input type="text" id="regPhone"
+             placeholder="رقم الجوال"
+             data-ar-placeholder="رقم الجوال"
+             data-en-placeholder="Phone Number" required>
+
+      <!-- الهوية الوطنية (جديد) -->
+      <input type="text" id="regNationalID"
+             placeholder="الهوية الوطنية"
+             data-ar-placeholder="الهوية الوطنية"
+             data-en-placeholder="National ID" required>
+
+      <input type="text" id="regID"
+             placeholder="اسم المستخدم"
+             data-ar-placeholder="اسم المستخدم"
+             data-en-placeholder="User Name" required>
+
+      <input type="email" id="regEmail"
+             placeholder="البريد الإلكتروني"
+             data-ar-placeholder="البريد الإلكتروني"
+             data-en-placeholder="Email Address" required>
+
+      <select id="regDepartment" required
+              data-ar-placeholder="اختر القسم"
+              data-en-placeholder="Select Department">
+        <option value="" disabled selected data-ar="اختر القسم" data-en="Select Department">اختر القسم</option>
+      </select>
+
+      <input type="password" id="regPass"
+             placeholder="كلمة المرور"
+             data-ar-placeholder="كلمة المرور"
+             data-en-placeholder="Password" required>
+
+      <input type="password" id="regConfirmPass"
+             placeholder="تأكيد كلمة المرور"
+             data-ar-placeholder="تأكيد كلمة المرور"
+             data-en-placeholder="Confirm Password" required>
+
+      <button type="button" class="btn"
+              onclick="register()"
+              data-ar="تسجيل"
+              data-en="Register">تسجيل</button>
+    </form>
+
+    <p class="terms"
+       data-ar="بالتسجيل، أنت توافق على شروط الاستخدام وسياسة الخصوصية الخاصة بنا"
+       data-en="By registering, you agree to our Terms of Use and Privacy Policy">
+       بالتسجيل، أنت توافق على شروط الاستخدام وسياسة الخصوصية الخاصة بنا
+    </p>
+  </div>
+
+  <!-- استخدم ملف الجافاسكربت الخارجي فقط -->
+  <script src="login.js"></script>
+</body>
+</html>

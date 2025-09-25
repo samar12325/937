@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title data-ar="نظام البلاغات" data-en="Report System">نظام البلاغات</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- خط تاجوال -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <!-- أيقونات Remix -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="details.css">
+</head>  
+<body>
+  <!-- رأس الصفحة -->
+  <header class="header">
+    <div class="header-content">
+      <div class="header-title" data-ar="بلاغات 937" data-en="Reports 937">بلاغات 937</div>
+      <img src="/icon/hospital-logo.png" alt="Hospital Logo" class="header-logo">
+          <button id="langToggle" class="lang-toggle-btn">
+        <img src="/icon/lang.png" alt="language" class="lang-icon" />
+        <span id="langText">العربية | English</span>
+      </button>
+    </div>
+  </header>
+
+
+  <!-- Card -->
+  <div class="complaint-card">
+    <!-- Header -->
+    <div class="complaint-header">
+      <div>
+        <div class="complaint-title" data-ar="جاري التحميل..." data-en="Loading...">جاري التحميل...</div>
+        <div class="complaint-date" data-ar="جاري التحميل..." data-en="Loading...">جاري التحميل...</div>
+      </div>
+      <span class="complaint-status" data-ar="جاري التحميل..." data-en="Loading...">جاري التحميل...</span>
+    </div>
+
+    <!-- بيانات مقدم البلاغ  -->
+    <div class="section">
+      <div class="section-title" data-ar="بيانات مقدم البلاغ" data-en="Reporter Details">بيانات مقدم البلاغ</div>
+      <div class="info-grid">
+        <div>
+          <div class="info-label" data-ar="الاسم الكامل" data-en="Full Name">الاسم الكامل</div>
+          <div class="info-value" id="patientName"></div>
+        </div>
+        <div>
+          <div class="info-label" data-ar="رقم الهوية / الإقامة" data-en="ID/Iqama Number">رقم الهوية / الإقامة</div>
+          <div class="info-value" id="nationalId"></div>
+        </div>
+        <div>
+          <div class="info-label" data-ar="رقم الملف الطبي" data-en="Medical File Number">رقم الملف الطبي</div>
+          <div class="info-value" id="medicalFileNumber"></div>
+        </div>
+        <div>
+          <div class="info-label" data-ar="رقم الجوال" data-en="Mobile Number">رقم الجوال</div>
+          <div class="info-value" id="mobileNumber"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- تفاصيل البلاغ  -->
+    <div class="section">
+      <div class="section-title" data-ar="تفاصيل البلاغ" data-en="Report Details">تفاصيل البلاغ</div>
+      <div class="info-grid">
+        <div>
+          <div class="info-label" data-ar="القسم المرتبط" data-en="Associated Department">القسم المرتبط</div>
+          <div class="info-value" id="departmentName"></div>
+        </div>
+        <div>
+          <div class="info-label" data-ar="تاريخ الزيارة" data-en="Visit Date">تاريخ الزيارة</div>
+          <div class="info-value" id="visitDate"></div>
+        </div>
+        <div>
+          <div class="info-label" data-ar="نوع البلاغ الرئيسي" data-en="Main Report Type">نوع البلاغ الرئيسي</div>
+          <div class="info-value" id="complaintTypeName"></div>
+        </div>
+        <div>
+          <div class="info-label" data-ar="البلاغ الفرعي" data-en="Subcategory">البلاغ الفرعي</div>
+          <div class="info-value" id="subTypeName"></div>
+        </div>
+      </div>
+      <div class="details-box" id="complaintDetails"></div>
+    </div>
+
+    <!-- المرفقات -->
+    <div class="section">
+      <div class="section-title" data-ar="المرفقات" data-en="Attachments">المرفقات</div>
+      <div class="attachment-box">
+        <!-- سيتم تعبئة المرفقات ديناميكياً -->
+        <div class="attachment-file">
+          <i class="ri-loader-line"></i>
+          <span data-ar="جاري تحميل المرفقات..." data-en="Loading attachments...">جاري تحميل المرفقات...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- الرد على البلاغ  -->
+    <div class="section">
+      <div class="section-title" data-ar="الرد على البلاغ" data-en="Response to Report">الرد على البلاغ</div>
+      <div class="reply-box">
+        <!-- سيتم تعبئة الرد ديناميكياً -->
+        <div class="reply-header">
+          <span class="reply-from" data-ar="إدارة تجربة المريض" data-en="Patient Experience Department">إدارة تجربة المريض</span>
+          <span class="reply-date" data-ar="جاري التحميل..." data-en="Loading...">جاري التحميل...</span>
+        </div>
+        <div class="reply-text" data-ar="جاري تحميل الرد..." data-en="Loading response...">جاري تحميل الرد...</div>
+        <span class="reply-status" data-ar="جاري التحميل..." data-en="Loading...">جاري التحميل...</span>
+      </div>
+    </div>
+
+    <!-- سجل التاريخ -->
+    <div class="section">
+      <div class="section-title" data-ar="سجل التاريخ" data-en="History Log">سجل التاريخ</div>
+      <div class="history-box" id="historyContainer">
+        <!-- سيتم تعبئة البيانات ديناميكياً -->
+      </div>
+    </div>
+
+    <!-- أزرار أسفل الصفحة -->
+    <div class="footer-actions">
+      <a href="#" onclick="goBack()" class="back-link">
+        <i class="ri-arrow-right-s-line"></i>
+        <span data-ar="العودة لقائمة البلاغات" data-en="Back to Reports List">العودة لقائمة البلاغات</span>
+      </a>
+      <div class="left-actions">
+        <button class="reopen-btn" onclick="reopenComplaint()">
+          <i class="ri-refresh-line"></i>
+          <span data-ar="إعادة فتح البلاغ" data-en="Reopen Report">إعادة فتح البلاغ</span>
+        </button>
+        <button class="print-btn" onclick="printComplaintDetails()">
+          <i class="ri-printer-line"></i>
+          <span data-ar="طباعة البلاغ" data-en="Print Report">طباعة البلاغ</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="details.js"></script>
+  <script>
+  (function () {
+    // استخدمي نفس التخزين عندك: localStorage.user يحتوي RoleID
+   function redirectByRole() {
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (!user) return '/login/login.html';
+      const roleId = Number(user.RoleID || user.roleId);
+      if (roleId === 1) return '/superadmin/superadmin-home.html'; // سوبر أدمن
+      if (roleId === 2) return '/employee/employee-home.html';   // موظف
+      if (roleId === 3) return '/dept-admin/dept-admin.html';  
+      return '/login/login.html'; // احتياطي
+    }
+
+    // كل روابط "الصفحة الرئيسية" الموجودة في الشريط الجانبي
+    const homeLinks = document.querySelectorAll(
+      'aside .sidebar-menu a.menu-link[href$="/login/login.html"], aside .sidebar-menu a.menu-link[data-en="Home Page"], aside .sidebar-menu a.menu-link[data-ar="الصفحة الرئيسية"]'
+    );
+
+    homeLinks.forEach(a => {
+      // خَلّي النقر يوجّه حسب الدور
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = redirectByRole();
+      });
+
+      // (اختياري) عدّلي الـ href الظاهر للـ Hover/Copy
+      a.setAttribute('href', redirectByRole());
+    });
+  })();
+</script>
+
+</body>
+</html>
+

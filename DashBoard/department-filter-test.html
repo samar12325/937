@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Department Filter Test - Report 937</title>
+  <style>
+    body {
+      font-family: 'Tajawal', Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .test-section {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .success { border-color: #10b981; background-color: #f0fdf4; }
+    .info { border-color: #3b82f6; background-color: #eff6ff; }
+    .warning { border-color: #f59e0b; background-color: #fffbeb; }
+    .code {
+      background: #f3f4f6;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: monospace;
+      margin: 10px 0;
+    }
+    .step {
+      margin: 10px 0;
+      padding: 10px;
+      background: #f8fafc;
+      border-left: 4px solid #3b82f6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 Department Filter Test - Report 937</h1>
+    
+    <div class="test-section success">
+      <h3>✅ How Department Filtering Works</h3>
+      <p>The department dropdown now properly filters the chart. Here's how to test it:</p>
+      
+      <div class="step">
+        <strong>Step 1:</strong> Open the main report page
+      </div>
+      <div class="step">
+        <strong>Step 2:</strong> Click on the department dropdown (اختر الإدارة/القسم)
+      </div>
+      <div class="step">
+        <strong>Step 3:</strong> Select any department from the list
+      </div>
+      <div class="step">
+        <strong>Step 4:</strong> The chart will show only that department's data
+      </div>
+      <div class="step">
+        <strong>Step 5:</strong> Select "الكل" (All) to show all departments again
+      </div>
+    </div>
+
+    <div class="test-section info">
+      <h3>📊 What You Should See</h3>
+      <ul>
+        <li><strong>Chart Title Changes:</strong> When filtering, the title becomes "البلاغات في: [Department Name]"</li>
+        <li><strong>Title Color:</strong> The title turns green when filtering is active</li>
+        <li><strong>Single Bar:</strong> Only one department bar appears when filtering</li>
+        <li><strong>All Bars:</strong> All 70 departments appear when "الكل" is selected</li>
+      </ul>
+    </div>
+
+    <div class="test-section warning">
+      <h3>🔧 Technical Details</h3>
+      <p>The filtering system:</p>
+      <div class="code">
+        function filterChartByDepartment(selectedValue) {
+          if (selectedValue === 'all') {
+            // Show all departments
+            chart.data.labels = allDepartments;
+            chart.data.datasets[0].data = allValues;
+          } else {
+            // Show only selected department
+            chart.data.labels = [selectedDepartment];
+            chart.data.datasets[0].data = [selectedValue];
+          }
+          chart.update();
+        }
+      </div>
+    </div>
+
+    <div class="test-section success">
+      <h3>🎯 Test the Filtering</h3>
+      <p>Go to the main report page and test the department filtering:</p>
+      <button onclick="window.open('report-937.html', '_blank')" style="background: #059669; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+        Open Report 937
+      </button>
+    </div>
+
+    <div class="test-section info">
+      <h3>📝 Console Debugging</h3>
+      <p>Open browser console (F12) to see filtering debug information:</p>
+      <ul>
+        <li>🔍 Filtering chart by department: [Department Name]</li>
+        <li>✅ Chart filtered successfully</li>
+        <li>- Current labels: [Array of labels]</li>
+        <li>- Current data: [Array of values]</li>
+      </ul>
+    </div>
+
+    <div class="test-section warning">
+      <h3>❌ Troubleshooting</h3>
+      <p>If filtering doesn't work:</p>
+      <ul>
+        <li>Check browser console for JavaScript errors</li>
+        <li>Ensure the chart is loaded before filtering</li>
+        <li>Try refreshing the page</li>
+        <li>Verify the dropdown has all 70 departments</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-ar="لوحة إدارة القسم" data-en="Department Dashboard">Department Dashboard</title>
+
+  <!-- خطوط مطابقة للهوم -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+
+
+
+  <!-- Flatpickr for date picker -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ar.js"></script>
+
+  <!-- نفس ملف التنسيق -->
+  <link rel="stylesheet" href="dept-admin.css">
+  <style>
+    /* Dashboard specific styles */
+    .dashboard-container {
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Dashboard Icons */
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      padding: 30px 0;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      border-radius: 16px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.1);
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      border-color: #3b82f6;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .card img {
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 15px;
+      object-fit: contain;
+      transition: all 0.3s ease;
+      filter: grayscale(0.2);
+    }
+
+    .card:hover img {
+      transform: scale(1.1) rotate(5deg);
+      filter: grayscale(0) brightness(1.1);
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 10px 0;
+      color: #1f2937;
+      transition: color 0.3s ease;
+    }
+
+    .card:hover h3 {
+      color: #3b82f6;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin: 10px 0 20px;
+      line-height: 1.5;
+    }
+
+    .card .btn {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      margin-top: auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .card:hover .btn::before {
+      left: 100%;
+    }
+
+    .card .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    /* KPI Cards */
+    .kpi-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .kpi-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .kpi-card.clickable {
+      cursor: pointer;
+    }
+
+    .kpi-title {
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .kpi-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+
+    .kpi-change {
+      font-size: 0.8rem;
+      color: #059669;
+    }
+
+    .kpi-change.negative {
+      color: #dc2626;
+    }
+
+
+
+    /* Worklist Section */
+    .worklist-section {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .worklist-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .worklist-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .worklist-filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-label {
+      font-size: 0.9rem;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .filter-select, .filter-input {
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      background: #fff;
+    }
+
+    .filter-select:focus, .filter-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .search-box {
+      display: flex;
+      gap: 8px;
+    }
+
+    .search-input {
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      min-width: 200px;
+    }
+
+    .search-btn {
+      padding: 8px 16px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s ease;
+    }
+
+    .search-btn:hover {
+      background: #2563eb;
+    }
+
+    /* Table Styles */
+    .worklist-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .worklist-table th,
+    .worklist-table td {
+      padding: 12px;
+      text-align: right;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .worklist-table th {
+      background: #f9fafb;
+      font-weight: 600;
+      color: #374151;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .worklist-table tbody tr:hover {
+      background: #f9fafb;
+    }
+
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-align: center;
+      display: inline-block;
+      min-width: 80px;
+    }
+
+    .status-new { background: #dbeafe; color: #1e40af; }
+    .status-progress { background: #fef3c7; color: #92400e; }
+    .status-resolved { background: #d1fae5; color: #065f46; }
+    .status-closed { background: #f3f4f6; color: #374151; }
+
+    .priority-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-align: center;
+      display: inline-block;
+      min-width: 60px;
+    }
+
+    .priority-high { background: #fee2e2; color: #991b1b; }
+    .priority-medium { background: #fef3c7; color: #92400e; }
+    .priority-low { background: #d1fae5; color: #065f46; }
+
+    .action-buttons {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn-small {
+      padding: 4px 8px;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-assign { background: #3b82f6; color: white; }
+    .btn-assign:hover { background: #2563eb; }
+
+    .btn-status { background: #10b981; color: white; }
+    .btn-status:hover { background: #059669; }
+
+    .btn-view { background: #6b7280; color: white; }
+    .btn-view:hover { background: #4b5563; }
+
+    /* Team Section */
+    .team-section {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .team-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .team-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .team-search {
+      display: flex;
+      gap: 8px;
+    }
+
+    .team-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .team-table th,
+    .team-table td {
+      padding: 12px;
+      text-align: right;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .team-table th {
+      background: #f9fafb;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .workload-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-align: center;
+      display: inline-block;
+      min-width: 40px;
+    }
+
+    .workload-low { background: #d1fae5; color: #065f46; }
+    .workload-medium { background: #fef3c7; color: #92400e; }
+    .workload-high { background: #fee2e2; color: #991b1b; }
+
+    /* SLA & Alerts Section */
+    .sla-section {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .sla-header {
+      margin-bottom: 20px;
+    }
+
+    .sla-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 10px;
+    }
+
+    .sla-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .sla-item {
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .sla-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .sla-unanswered { background: #fee2e2; color: #991b1b; }
+    .sla-due-today { background: #fef3c7; color: #92400e; }
+    .sla-reminders { background: #dbeafe; color: #1e40af; }
+
+    .sla-count {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .sla-label {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* Recent Activity Section */
+    .activity-section {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .activity-header {
+      margin-bottom: 20px;
+    }
+
+    .activity-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .activity-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .activity-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #f3f4f6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-user {
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .activity-action {
+      color: #6b7280;
+      margin: 0 5px;
+    }
+
+    .activity-time {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    /* Loading States */
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f4f6;
+      border-radius: 50%;
+      border-top-color: #3b82f6;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Empty States */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #6b7280;
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+
+    .empty-state-text {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .empty-state-subtext {
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .worklist-filters {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter-group {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-box {
+        flex-direction: column;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .kpi-section {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .sla-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Header and back button styles */
+    .header {
+      position: relative;
+    }
+    
+    .btn-back{
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #6b7280; 
+      color: #fff; 
+      border: none; 
+      border-radius: 8px;
+      padding: 8px 16px; 
+      font-size: 14px; 
+      cursor: pointer;
+      display: inline-flex; 
+      align-items: center; 
+      gap: 6px;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+    .btn-back:hover{ 
+      background: #4b5563;
+      transform: translateY(-50%) translateY(-1px);
+      box-shadow: 0 2px 8px rgba(107, 114, 128, 0.3);
+    }
+
+    /* Old Back Button (keep for compatibility) */
+    .back-btn {
+      position: fixed;
+      top: 10px;
+      left: 20px;
+      padding: 12px 18px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .back-btn:hover {
+      background: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <!-- زر العودة للخلف -->
+    <button id="btnBack" class="btn-back" 
+            data-ar="العودة" 
+            data-en="Back">
+      ← العودة
+    </button>
+    
+    <div class="header-content">
+      <div class="header-title" data-ar="بلاغات 937 - لوحة إدارة القسم" data-en="Department Dashboard">
+        لوحة إدارة القسم
+      </div>
+      <img src="../icon/hospital-logo.png" alt="شعار المستشفى" class="header-logo">
+      <button id="langToggle" class="lang-toggle-btn">
+        <img src="../icon/lang.png" alt="language" class="lang-icon" />
+        <span id="langText">العربية | English</span>
+      </button>
+    </div>
+  </header>
+
+  <button class="back-btn" onclick="goBack()" data-ar="العودة" data-en="Back">العودة</button>
+
+  <main class="dashboard-container">
+    <!-- Dashboard Icons -->
+    <section class="dashboard">
+      <!-- KPI Cards -->
+      <div class="kpi-card clickable" onclick="filterByStatus('new')">
+        <div class="kpi-title" data-ar="شكاوى اليوم الجديدة" data-en="Today's New Complaints">شكاوى اليوم الجديدة</div>
+        <div class="kpi-value" id="kpiTodayNew">—</div>
+        <div class="kpi-change" id="kpiTodayNewChange">+0%</div>
+      </div>
+
+      <div class="kpi-card clickable" onclick="filterByStatus('open')">
+        <div class="kpi-title" data-ar="الشكاوى المفتوحة" data-en="Open Complaints">الشكاوى المفتوحة</div>
+        <div class="kpi-value" id="kpiOpen">—</div>
+        <div class="kpi-change" id="kpiOpenChange">+0%</div>
+      </div>
+
+      <div class="kpi-card clickable" onclick="filterByStatus('progress')">
+        <div class="kpi-title" data-ar="قيد المعالجة" data-en="In Progress">قيد المعالجة</div>
+        <div class="kpi-value" id="kpiProgress">—</div>
+        <div class="kpi-change" id="kpiProgressChange">+0%</div>
+      </div>
+
+      <div class="kpi-card clickable" onclick="filterByStatus('overdue')">
+        <div class="kpi-title" data-ar="متجاوزة الموعد/مخالفة SLA" data-en="Overdue / SLA Breached">متجاوزة الموعد/مخالفة SLA</div>
+        <div class="kpi-value" id="kpiOverdue">—</div>
+        <div class="kpi-change" id="kpiOverdueChange">+0%</div>
+      </div>
+    </section>
+
+
+    <!-- Worklist Section -->
+    <section class="worklist-section">
+      <div class="worklist-header">
+        <div class="worklist-title" data-ar="قائمة العمل" data-en="Worklist">قائمة العمل</div>
+        <div class="worklist-filters">
+          <div class="filter-group">
+            <label class="filter-label" data-ar="التاريخ:" data-en="Date:">التاريخ:</label>
+            <input type="text" id="dateRange" class="filter-input" placeholder="اختر التاريخ...">
+          </div>
+          <div class="filter-group">
+            <label class="filter-label" data-ar="الحالة:" data-en="Status:">الحالة:</label>
+            <select id="statusFilter" class="filter-select">
+              <option value="" data-ar="جميع الحالات" data-en="All Statuses">جميع الحالات</option>
+              <option value="new" data-ar="جديدة" data-en="New">جديدة</option>
+              <option value="progress" data-ar="قيد المعالجة" data-en="In Progress">قيد المعالجة</option>
+              <option value="resolved" data-ar="تم الحل" data-en="Resolved">تم الحل</option>
+              <option value="closed" data-ar="مغلقة" data-en="Closed">مغلقة</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label" data-ar="الأولوية:" data-en="Priority:">الأولوية:</label>
+            <select id="priorityFilter" class="filter-select">
+              <option value="" data-ar="جميع الأولويات" data-en="All Priorities">جميع الأولويات</option>
+              <option value="high" data-ar="عالية" data-en="High">عالية</option>
+              <option value="medium" data-ar="متوسطة" data-en="Medium">متوسطة</option>
+              <option value="low" data-ar="منخفضة" data-en="Low">منخفضة</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label" data-ar="التوزيع:" data-en="Assignment:">التوزيع:</label>
+            <select id="assignmentFilter" class="filter-select">
+              <option value="" data-ar="جميع البلاغات" data-en="All Complaints">جميع البلاغات</option>
+              <option value="assigned" data-ar="مخصصة" data-en="Assigned">مخصصة</option>
+              <option value="unassigned" data-ar="غير مخصصة" data-en="Unassigned">غير مخصصة</option>
+            </select>
+          </div>
+          <div class="search-box">
+            <input type="text" id="searchInput" class="search-input" placeholder="البحث..." data-ar-placeholder="البحث..." data-en-placeholder="Search...">
+            <button class="search-btn" onclick="searchComplaints()" data-ar="بحث" data-en="Search">بحث</button>
+          </div>
+        </div>
+      </div>
+      <table class="worklist-table">
+        <thead>
+          <tr>
+            <th data-ar="رقم البلاغ " data-en="Complaint ID">رقم البلاغ </th>
+            <th data-ar="اسم المريض" data-en="Patient Name">اسم المريض</th>
+            <th data-ar="نوع البلاغ " data-en="Complaint Type">نوع البلاغ </th>
+            <th data-ar="تاريخ الإنشاء" data-en="Created Date">تاريخ الإنشاء</th>
+            <th data-ar="الحالة" data-en="Status">الحالة</th>
+            <th data-ar="الأولوية" data-en="Priority">الأولوية</th>
+            <th data-ar="المسند إلى" data-en="Assigned To">المسند إلى</th>
+          </tr>
+        </thead>
+        <tbody id="worklistTableBody">
+          <!-- Worklist data will be loaded here -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- My Team Section -->
+    <section class="team-section">
+      <div class="team-header">
+        <div class="team-title" data-ar="فريق العمل" data-en="My Team">فريق العمل</div>
+        <div class="team-search">
+          <input type="text" id="teamSearch" class="search-input" placeholder="البحث في الفريق..." data-ar-placeholder="البحث في الفريق..." data-en-placeholder="Search team...">
+          <button class="search-btn" onclick="searchTeam()" data-ar="بحث" data-en="Search">بحث</button>
+        </div>
+      </div>
+      <table class="team-table">
+        <thead>
+          <tr>
+            <th data-ar="الاسم" data-en="Name">الاسم</th>
+            <th data-ar="البريد الإلكتروني" data-en="Email">البريد الإلكتروني</th>
+            <th data-ar="الدور" data-en="Role">الدور</th>
+            <th data-ar="عبء العمل" data-en="Workload">عبء العمل</th>
+          </tr>
+        </thead>
+        <tbody id="teamTableBody">
+          <!-- Team data will be loaded here -->
+        </tbody>
+      </table>
+    </section>
+  
+    <!-- SLA & Alerts Section -->
+    <section class="sla-section">
+      <div class="sla-header">
+        <div class="sla-title" data-ar="SLA والتنبيهات" data-en="SLA & Alerts">SLA والتنبيهات</div>
+      </div>
+      <div class="sla-grid">
+        <div class="sla-item sla-unanswered" onclick="filterBySLA('unanswered')">
+          <div class="sla-count" id="slaUnanswered">0</div>
+          <div class="sla-label" data-ar="غير مجاب عليها لأكثر من 3 أيام" data-en="Unanswered for > 3 days">غير مجاب عليها لأكثر من 3 أيام</div>
+        </div>
+        <div class="sla-item sla-due-today" onclick="filterBySLA('due-today')">
+          <div class="sla-count" id="slaDueToday">0</div>
+          <div class="sla-label" data-ar="مستحقة اليوم" data-en="Due Today">مستحقة اليوم</div>
+        </div>
+        <div class="sla-item sla-reminders" onclick="filterBySLA('reminders')">
+          <div class="sla-count" id="slaReminders">0</div>
+          <div class="sla-label" data-ar="تذكيرات تلقائية (3 أيام)" data-en="Auto Reminders (3 days)">تذكيرات تلقائية (3 أيام)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Activity Section -->
+    <section class="activity-section">
+      <div class="activity-header">
+        <div class="activity-title" data-ar="النشاط الأخير" data-en="Recent Activity">النشاط الأخير</div>
+      </div>
+      <ul class="activity-list" id="activityList">
+        <!-- Activity data will be loaded here -->
+      </ul>
+    </section>
+  </main>
+
+
+  <script src="./dept-dashboard.js"></script>
+  <script>
+    // Back button functionality for header
+    document.getElementById('btnBack').addEventListener('click', function() {
+      window.history.back();
+    });
+  </script>
+</body>
+</html>

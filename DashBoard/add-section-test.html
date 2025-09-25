@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Section Test - Report 937</title>
+  <style>
+    body {
+      font-family: 'Tajawal', Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .test-section {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .success { border-color: #10b981; background-color: #f0fdf4; }
+    .info { border-color: #3b82f6; background-color: #eff6ff; }
+    .warning { border-color: #f59e0b; background-color: #fffbeb; }
+    .code {
+      background: #f3f4f6;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: monospace;
+      margin: 10px 0;
+    }
+    .step {
+      margin: 10px 0;
+      padding: 10px;
+      background: #f8fafc;
+      border-left: 4px solid #3b82f6;
+    }
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    .feature-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .feature-list li:before {
+      content: "✅ ";
+      color: #10b981;
+      font-weight: bold;
+    }
+    .test-button {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 10px;
+      transition: background 0.3s;
+    }
+    .test-button:hover {
+      background: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>➕ Add Section Test - Report 937</h1>
+    
+    <div class="test-section success">
+      <h3>✅ New "Add Section" Feature with Database Integration</h3>
+      <p>The department dropdown now includes an "Add New Section" option that saves to the database!</p>
+      
+      <div class="step">
+        <strong>How to use:</strong>
+        <ul class="feature-list">
+          <li>Click on the department dropdown (اختر الإدارة/القسم)</li>
+          <li>Scroll to the bottom of the list</li>
+          <li>Click on "إضافة قسم جديد" (Add New Section)</li>
+          <li>Fill in the section details in the modal</li>
+          <li>Click "حفظ" (Save) to add the section to database</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="test-section info">
+      <h3>🗄️ Database Integration</h3>
+      <ul class="feature-list">
+        <li><strong>API Endpoint:</strong> POST /api/departments</li>
+        <li><strong>Authentication:</strong> Bearer token required</li>
+        <li><strong>Data Structure:</strong> { nameAr, nameEn, description }</li>
+        <li><strong>Fallback:</strong> Local storage if database fails</li>
+        <li><strong>Error Handling:</strong> Graceful degradation</li>
+      </ul>
+    </div>
+
+    <div class="test-section warning">
+      <h3>🔧 Technical Features</h3>
+      <ul class="feature-list">
+        <li><strong>Validation:</strong> Both Arabic and English names required</li>
+        <li><strong>Duplicate Check:</strong> Prevents adding existing sections</li>
+        <li><strong>Database Save:</strong> Saves to backend database via API</li>
+        <li><strong>Auto-Update:</strong> Chart and dropdown update immediately</li>
+        <li><strong>Persistence:</strong> Also saved to localStorage as backup</li>
+        <li><strong>Bilingual:</strong> Full support for Arabic and English</li>
+        <li><strong>Error Recovery:</strong> Falls back to local storage if API fails</li>
+      </ul>
+    </div>
+
+    <div class="test-section success">
+      <h3>📊 What Happens When You Add a Section</h3>
+      <div class="code">
+        1. User fills form and clicks "Save"
+        2. Validation checks (required fields, duplicates)
+        3. API call to POST /api/departments
+        4. Section saved to database
+        5. Local data updated (departmentComplaintsData)
+        6. Alias map updated (deptAliasMap)
+        7. Dropdown repopulated
+        8. Chart updated with new section (0 complaints)
+        9. localStorage updated as backup
+        10. Success message displayed
+        11. Modal closes automatically
+      </div>
+    </div>
+
+    <div class="test-section info">
+      <h3>🔄 Fallback Mechanism</h3>
+      <p>If the database API fails:</p>
+      <div class="code">
+        1. Error caught and logged
+        2. Section added to local data
+        3. UI updated normally
+        4. Warning message shown
+        5. Data saved to localStorage
+        6. User can continue working
+      </div>
+    </div>
+
+    <div class="test-section warning">
+      <h3>🔍 Console Debugging</h3>
+      <p>Open browser console (F12) to see:</p>
+      <div class="code">
+        ✅ Section saved to database: { id: 123, nameAr: "قسم جديد", ... }
+        📋 Department dropdown populated with 71 sections
+        💾 Data saved to localStorage
+        🔄 Falling back to local storage... (if API fails)
+      </div>
+    </div>
+
+    <div class="test-section success">
+      <h3>🎯 Test the Feature</h3>
+      <p>Go to the main report page and test adding a new section:</p>
+      <button class="test-button" onclick="window.open('report-937.html', '_blank')">
+        Open Report 937
+      </button>
+    </div>
+
+    <div class="test-section info">
+      <h3>📝 Example Usage</h3>
+      <p><strong>Arabic Name:</strong> قسم التطوير والجودة</p>
+      <p><strong>English Name:</strong> Development and Quality Department</p>
+      <p><strong>Description:</strong> قسم مسؤول عن تطوير الأنظمة وضمان الجودة</p>
+    </div>
+
+    <div class="test-section warning">
+      <h3>❌ Troubleshooting</h3>
+      <p>If the feature doesn't work:</p>
+      <ul>
+        <li>Check that backend server is running</li>
+        <li>Verify /api/departments endpoint exists</li>
+        <li>Ensure user is authenticated (has valid token)</li>
+        <li>Check browser console for API errors</li>
+        <li>Verify both Arabic and English names are filled</li>
+        <li>Check that section name isn't already in the list</li>
+      </ul>
+    </div>
+
+    <div class="test-section success">
+      <h3>🔐 Authentication Requirements</h3>
+      <p>The API requires authentication:</p>
+      <div class="code">
+        Headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer [user-token]'
+        }
+      </div>
+      <p>Make sure the user is logged in and has a valid token in localStorage.</p>
+    </div>
+  </div>
+</body>
+</html>

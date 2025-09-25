@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Excel Import Test - Report 937</title>
+  <style>
+    body {
+      font-family: 'Tajawal', Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .test-section {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .success { border-color: #10b981; background-color: #f0fdf4; }
+    .info { border-color: #3b82f6; background-color: #eff6ff; }
+    .warning { border-color: #f59e0b; background-color: #fffbeb; }
+    .error { border-color: #ef4444; background-color: #fef2f2; }
+    button {
+      background: #059669;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover { background: #047857; }
+    .code {
+      background: #f3f4f6;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: monospace;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧪 Excel Import Test - Report 937</h1>
+    
+    <div class="test-section info">
+      <h3>📋 How Excel Import Works</h3>
+      <p>The system automatically reads Excel files and maps them to the 70 departments from the database. Here's how it works:</p>
+      
+      <div class="code">
+        1. Click "Import Excel Files" button
+        2. Select your Excel files (.xlsx or .xls)
+        3. System reads department names and complaint counts
+        4. Maps to the 70 predefined departments
+        5. Updates charts and displays results
+      </div>
+    </div>
+
+    <div class="test-section success">
+      <h3>✅ Excel File Requirements</h3>
+      <p>Your Excel files should contain:</p>
+      <ul>
+        <li><strong>Department Column:</strong> "القسم", "الإدارة", "Department", "Section"</li>
+        <li><strong>Category Column:</strong> "تصنيف البلاغ", "Category", "Type"</li>
+        <li><strong>Data:</strong> Any complaint data with department names</li>
+      </ul>
+    </div>
+
+    <div class="test-section warning">
+      <h3>⚠️ Department Mapping</h3>
+      <p>The system maps Excel department names to the 70 predefined departments:</p>
+      <ul>
+        <li>قسم الطوارئ → Emergency Department</li>
+        <li>قسم الأشعة → Radiology Department</li>
+        <li>قسم المختبرات الطبية → Medical Laboratories</li>
+        <li>And 67 more departments...</li>
+      </ul>
+    </div>
+
+    <div class="test-section info">
+      <h3>🔍 Debug Information</h3>
+      <p>After importing Excel files, check the browser console (F12) for:</p>
+      <ul>
+        <li>📊 Excel Import Results</li>
+        <li>📋 Department Mapping details</li>
+        <li>Total reports count</li>
+        <li>Category aggregation</li>
+      </ul>
+    </div>
+
+    <div class="test-section success">
+      <h3>🎯 Visual Indicators</h3>
+      <p>The system provides visual feedback:</p>
+      <ul>
+        <li><strong>Green number:</strong> Data from Excel files</li>
+        <li><strong>Blue number:</strong> Default static data</li>
+        <li><strong>Reset button:</strong> Return to default data</li>
+      </ul>
+    </div>
+
+    <div class="test-section">
+      <h3>🚀 Test the Import</h3>
+      <p>Go to the main report page and test the Excel import functionality:</p>
+      <button onclick="window.open('report-937.html', '_blank')">Open Report 937</button>
+    </div>
+
+    <div class="test-section error">
+      <h3>❌ Troubleshooting</h3>
+      <p>If Excel import doesn't work:</p>
+      <ul>
+        <li>Check browser console for errors</li>
+        <li>Ensure Excel files have proper column headers</li>
+        <li>Verify department names match the predefined list</li>
+        <li>Try the "Reset Data" button to clear any issues</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

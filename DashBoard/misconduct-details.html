@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تفاصيل بلاغات سوء التعامل</title>
+  <link rel="stylesheet" href="report-937.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="lang-ar" style="padding:24px;background:#f0f2f5;">
+  <div id="exportArea" class="bg-white rounded-lg shadow p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h1 id="title" class="text-2xl font-bold text-gray-800">تفاصيل بلاغات سوء التعامل</h1>
+      <div class="flex gap-2 items-center">
+        <button id="exportBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded permission-gated" data-permission="reports_export" style="display: none;">تصدير</button>
+        <button id="langToggle" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded border">العربية | English</button>
+        <button id="backBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">← رجوع</button>
+      </div>
+    </div>
+    <p id="summary" class="text-gray-600 mb-4"></p>
+
+    <div class="overflow-auto">
+      <table id="tbl" class="min-w-full text-sm border">
+        <thead id="thead" class="bg-gray-100"></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    let currentLang = localStorage.getItem('lang') || 'ar';
+    const L = {
+      title: { ar: 'تفاصيل بلاغات سوء التعامل', en: 'Misconduct Complaint Details' },
+      deptPrefix: { ar: 'القسم: ', en: 'Department: ' },
+      summary: { ar: 'عدد السجلات المطابقة: ', en: 'Matching records: ' },
+      back: { ar: '← رجوع', en: '← Back' },
+      noData: { ar: 'لا توجد بيانات بعد. استوردي ملفات Excel من صفحة البلاغات ثم عودي هنا.', en: 'No data yet. Import Excel files from the misconduct page then come back.' },
+      noMatch: { ar: 'لا توجد سجلات مطابقة.', en: 'No matching records.' }
+    };
+
+    const ROWS_KEY = 'misconduct:rows:v1';
+    const SELECTED_DEPARTMENT_KEY = 'misconduct:selectedDepartment';
+    const SELECTED_DEPARTMENT_ALIASES_KEY = 'misconduct:selectedDepartmentAliases';
+
+    const MISCONDUCT_TITLE = 'سلوك فظ ورفع الصوت على المستفيد أثناء التعامل معه';
+
+    const AR_DIACRITICS = /[\u064B-\u0652]/g, AR_TATWEEL = /\u0640/g;
+    function norm(s){
+      return String(s||'')
+        .replace(AR_DIACRITICS,'')
+        .replace(AR_TATWEEL,'')
+        .replace(/[أإآٱ]/g,'ا')
+        .replace(/ى/g,'ي')
+        .replace(/ئ/g,'ي')
+        .replace(/ؤ/g,'و')
+        .replace(/ة/g,'ه')
+        .toLowerCase().trim().replace(/\s+/g,' ');
+    }
+
+    const qs = new URLSearchParams(location.search);
+    const qsDepartment = qs.get('department') || '';
+
+    const selectedDepartment = localStorage.getItem(SELECTED_DEPARTMENT_KEY) || qsDepartment || '';
+    const selectedDepartmentAliases = JSON.parse(localStorage.getItem(SELECTED_DEPARTMENT_ALIASES_KEY) || '[]');
+
+    const rowsRaw = localStorage.getItem(ROWS_KEY);
+    const rows = rowsRaw ? JSON.parse(rowsRaw) : [];
+
+    const CAT_CANDS = [
+      'تصنيف البلاغ', 'التصنيف', 'تصنيف', 'نوع البلاغ ', 'نوع البلاغ', 'classification',
+      'وصف البلاغ', 'الوصف', 'وصف', 'سبب البلاغ', 'السبب', 'الملاحظة', 'الملاحظه',
+      'category', 'complaint category', 'complaint type', 'type']
+    const DEPT_CANDS = [
+      'القسم', 'الإدارة', 'الادارة', 'القسم/الإدارة',
+      'اسم المعني', 'القسم المعني', 'الجهة', 'الجهة المعنية', 'اسم القسم', 'الادارة المعنية',
+      'department', 'section', 'unit', 'dept'];
+
+    function findKey(obj, candidates) {
+      const keys = Object.keys(obj || {});
+      for (const k of keys) { const nk = norm(k); if (candidates.some(c => nk.includes(norm(c)))) return k; }
+      return null;
+    }
+
+    function build() {
+      document.documentElement.lang = currentLang;
+      document.body.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+      document.body.classList.remove('lang-ar','lang-en');
+      document.body.classList.add(currentLang === 'ar' ? 'lang-ar' : 'lang-en');
+      document.getElementById('langToggle').textContent = currentLang === 'ar' ? 'العربية | English' : 'English | العربية';
+
+      const thead = document.getElementById('thead');
+      const tbody = document.getElementById('tbody');
+      thead.innerHTML = ''; tbody.innerHTML = '';
+
+      if (!rows.length) {
+        document.getElementById('title').textContent = (currentLang==='ar'?L.title.ar:L.title.en);
+        const tr = document.createElement('tr'); const td = document.createElement('td');
+        td.colSpan = 99; td.textContent = (currentLang==='ar'?L.noData.ar:L.noData.en); td.className='border p-4 text-center text-gray-500';
+        tr.appendChild(td); tbody.appendChild(tr); return;
+      }
+
+      const deptKey = findKey(rows[0], DEPT_CANDS) || 'القسم';
+      const catKey = findKey(rows[0], CAT_CANDS) || 'التصنيف';
+
+      const deptNeedles = [selectedDepartment, ...selectedDepartmentAliases].map(norm).filter(Boolean);
+      const catNeedle = norm(MISCONDUCT_TITLE);
+
+      const filtered = rows.filter(r => {
+        const deptVal = norm(r[deptKey] || r.__deptHint || '');
+        const catVal = norm(r[catKey] || '');
+        const deptOk = !deptNeedles.length || deptNeedles.some(n => deptVal === n || deptVal.includes(n) || n.includes(deptVal));
+        const catOk = !catNeedle || (catVal === catNeedle || catVal.includes(catNeedle) || catNeedle.includes(catVal));
+        return deptOk && catOk;
+      });
+
+      document.getElementById('title').textContent = (currentLang==='ar'?L.title.ar:L.title.en) + (selectedDepartment? ' — ' + ((currentLang==='ar'?L.deptPrefix.ar:L.deptPrefix.en) + selectedDepartment):'');
+      document.getElementById('summary').textContent = (currentLang==='ar'?L.summary.ar:L.summary.en) + filtered.length;
+
+      if (!filtered.length) {
+        const tr = document.createElement('tr'); const td = document.createElement('td');
+        td.colSpan = 99; td.textContent = (currentLang==='ar'?L.noMatch.ar:L.noMatch.en); td.className='border p-4 text-center text-gray-500';
+        tr.appendChild(td); tbody.appendChild(tr); return;
+      }
+
+      const cols = Object.keys(filtered[0]);
+      const trh = document.createElement('tr');
+      for (const c of cols) { const th = document.createElement('th'); th.textContent = c; th.className='border px-3 py-2 text-right'; trh.appendChild(th); }
+      thead.appendChild(trh);
+
+      filtered.forEach(r => {
+        const tr = document.createElement('tr');
+        for (const c of cols) { const td = document.createElement('td'); td.textContent = (r[c]==null?'':r[c]); td.className='border px-3 py-2'; tr.appendChild(td); }
+        tbody.appendChild(tr);
+      });
+    }
+
+    document.getElementById('backBtn').onclick = () => history.back();
+    document.getElementById('langToggle').onclick = () => { currentLang = currentLang === 'ar' ? 'en' : 'ar'; localStorage.setItem('lang', currentLang); build(); };
+
+    // ====== تصدير PDF ======
+    function ensureHtml2Pdf(){
+      if (window.html2pdf) return Promise.resolve(true);
+      return new Promise((resolve)=>{ const s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js'; s.onload=()=>resolve(true); s.onerror=()=>resolve(false); document.head.appendChild(s); });
+    }
+    function sanitizeName(s){ return String(s||'').replace(/[^\w\-\u0600-\u06FF]+/g,'-').replace(/-+/g,'-'); }
+    async function exportAsPDF(){
+      const ok = await ensureHtml2Pdf(); if (!ok){ window.print(); return; }
+      const root = document.getElementById('exportArea'); if (!root){ window.print(); return; }
+      const d=new Date(); const pad=n=>String(n).padStart(2,'0');
+      const base = (currentLang==='ar'?'تفاصيل-سوء-التعامل':'misconduct-details') + (selectedDepartment? '_' + selectedDepartment : '');
+      const fileName = `${sanitizeName(base)}_${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}_${pad(d.getHours())}-${pad(d.getMinutes())}.pdf`;
+      const fullWidth = Math.max(root.scrollWidth, root.offsetWidth, root.clientWidth);
+      await html2pdf().set({
+        margin:[10,10,10,10], filename:fileName, image:{type:'jpeg',quality:0.98},
+        html2canvas:{ scale:3, useCORS:true, backgroundColor:'#ffffff', windowWidth:fullWidth },
+        jsPDF:{ unit:'mm', format:'a4', orientation:'landscape' },
+        pagebreak:{ mode:['avoid-all','css','legacy'], avoid:'.no-break' }
+      }).from(root).save();
+    }
+    document.getElementById('exportBtn').onclick = exportAsPDF;
+
+    // بدء
+    document.getElementById('backBtn').textContent = (currentLang==='ar'?L.back.ar:L.back.en);
+    build();
+  </script>
+  <script>
+  (function () {
+    // استخدمي نفس التخزين عندك: localStorage.user يحتوي RoleID
+    function redirectByRole() {
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (!user) return '/login/login.html';
+      const roleId = Number(user.RoleID || user.roleId);
+      if (roleId === 1) return '/superadmin/superadmin-home.html'; // سوبر أدمن
+      if (roleId === 2) return '/employee/employee-home.html';   // موظف
+      if (roleId === 3) return '/dept-admin/dept-admin.html';  
+      return '/login/login.html'; // احتياطي
+    }
+
+    // كل روابط "الصفحة الرئيسية" الموجودة في الشريط الجانبي
+    const homeLinks = document.querySelectorAll(
+      'aside .sidebar-menu a.menu-link[href$="/login/login.html"], aside .sidebar-menu a.menu-link[data-en="Home Page"], aside .sidebar-menu a.menu-link[data-ar="الصفحة الرئيسية"]'
+    );
+
+    homeLinks.forEach(a => {
+      // خَلّي النقر يوجّه حسب الدور
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = redirectByRole();
+      });
+
+      // (اختياري) عدّلي الـ href الظاهر للـ Hover/Copy
+      a.setAttribute('href', redirectByRole());
+    });
+  })();
+</script>
+</body>
+</html>

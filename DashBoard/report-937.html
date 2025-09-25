@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+
+  <link rel="stylesheet" href="report-937.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- خطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Tajawal:wght@400;500;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- أيقونات -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+  <!-- XLSX لقراءة الإكسل -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  
+  <!-- jsPDF + html2canvas + AutoTable -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.3/dist/jspdf.plugin.autotable.min.js"></script>
+  <!-- Permission utilities -->
+  <script src="../js/permission-utils.js"></script>
+</head>
+
+<body class="flex h-screen overflow-hidden lang-ar">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="header-title" data-ar="بلاغات 937" data-en="Reports 937">بلاغات 937</div>
+      <img src="/icon/hospital-logo.png" alt="شعار المستشفى" class="header-logo" />
+      <button id="langToggle" class="lang-toggle-btn">
+        <img src="/icon/lang.png" alt="language" class="lang-icon" />
+        <span id="langText">العربية | English</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside>
+    <ul class="sidebar-menu">
+      <li><a href="/login/login.html" class="menu-link" data-ar="الصفحة الرئيسية" data-en="Home Page">الصفحة الرئيسية</a></li>
+      <li><a href="overview.html" class="menu-link" data-ar="نظرة عامة" data-en="Overview">نظرة عامة</a></li>
+      <li><a href="report-937.html" class="menu-link active" data-ar="مؤشر بلاغات 937" data-en="937 Report Index">مؤشر بلاغات 937</a></li>
+      <li><a href="misconduct.html" class="menu-link" data-ar="بلاغات سوء التعامل" data-en="Misconduct Reports">بلاغات سوء التعامل</a></li>
+      <li><a href="pressganey.html" class="menu-link" data-ar="مؤشر برسجيني " data-en="Press Ganey Index">مؤشر برسجيني </a></li>
+      <li><a href="inperson-complaints.html" class="menu-link" data-ar="مؤشر البلاغات الحضورية" data-en="In-person Complaints">مؤشر البلاغات الحضورية</a></li>
+      <li><a href="secret-visitor.html" class="menu-link" data-ar="ملاحظات الزائر السري" data-en="Secret Visitor Notes">ملاحظات الزائر السري</a></li>
+      <li><a href="general-requests.html" class="menu-link" data-ar="مؤشر الطلبات العامة" data-en="General Requests Index">مؤشر الطلبات العامة</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <div id="exportArea" class="flex-1 flex flex-col p-8 overflow-auto" style="margin-right: 250px; margin-top: 75px;">
+
+    <!-- العنوان والكارت -->
+    <div class="flex justify-between items-start mb-8">
+      <div class="text-left">
+        <h1 class="text-2xl font-bold text-gray-800" data-ar="القسم الأكثر طلباً لتصنيفات مختلفة" data-en="Most Requested Section for Different Categories">القسم الأكثر طلباً لتصنيفات مختلفة</h1>
+        <p class="text-gray-600" data-ar="مركز المعلومات الصحية" data-en="Health Information Center">مركز المعلومات الصحية</p>
+      </div>
+      <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center text-center min-w-[200px]">
+        <p class="text-sm text-gray-500 mb-2" data-ar="إجمالي عدد البلاغات 937" data-en="Total 937 Reports">إجمالي عدد البلاغات 937</p>
+        <p class="text-4xl font-bold text-blue-600" id="totalReports">804</p>
+      </div>
+    </div>
+
+    <!-- شريط التحكم: استيراد + حفظ -->
+    <div class="flex flex-wrap gap-3 items-center justify-center mb-6 no-export">
+      <input id="excelInput" type="file" multiple accept=".xlsx,.xls" class="hidden" />
+      <button id="importExcelBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-5 rounded-full shadow flex items-center">
+        <i class="fas fa-file-excel ml-2"></i>
+        <span data-ar="استيراد ملفات إكسل" data-en="Import Excel Files">استيراد ملفات إكسل</span>
+      </button>
+
+      <button id="saveLocalBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-full shadow flex items-center">
+        <i class="fas fa-save ml-2"></i>
+        <span data-ar="حفظ (محليًا)" data-en="Save (Local)">حفظ (محليًا)</span>
+      </button>
+
+      <button id="saveDatabaseBtn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-5 rounded-full shadow flex items-center">
+        <i class="fas fa-database ml-2"></i>
+        <span data-ar="حفظ في قاعدة البيانات" data-en="Save to Database">حفظ في قاعدة البيانات</span>
+      </button>
+
+      
+    </div>
+
+    <!-- الفلاتر (شكل فقط) -->
+    <div class="flex flex-wrap items-center justify-end gap-4 mb-8 no-export">
+      <!-- اليوم / الأسبوع / الشهر / الربع / القسم -->
+      <div class="custom-select-wrapper">
+        <div class="custom-select" id="daySelect">
+          <span id="selectedDay" data-ar="اختر اليوم" data-en="Choose Day">اختر اليوم</span>
+          <i class="fas fa-chevron-down text-gray-500"></i>
+        </div>
+        <div class="custom-select-options" id="dayOptions">
+          <div class="custom-select-option" data-value="today" data-ar="اليوم" data-en="Today">اليوم</div>
+          <div class="custom-select-option" data-value="yesterday" data-ar="أمس" data-en="Yesterday">أمس</div>
+        </div>
+      </div>
+
+      <div class="custom-select-wrapper">
+        <div class="custom-select" id="weekSelect">
+          <span id="selectedWeek" data-ar="اختر الأسبوع" data-en="Choose Week">اختر الأسبوع</span>
+          <i class="fas fa-chevron-down text-gray-500"></i>
+        </div>
+        <div class="custom-select-options" id="weekOptions">
+          <div class="custom-select-option" data-value="this-week" data-ar="هذا الأسبوع" data-en="This Week">هذا الأسبوع</div>
+          <div class="custom-select-option" data-value="last-week" data-ar="الأسبوع الماضي" data-en="Last Week">الأسبوع الماضي</div>
+        </div>
+      </div>
+
+      <div class="custom-select-wrapper">
+        <div class="custom-select" id="monthSelect">
+          <span id="selectedMonth" data-ar="اختر الشهر" data-en="Choose Month">اختر الشهر</span>
+          <i class="fas fa-chevron-down text-gray-500"></i>
+        </div>
+        <div class="custom-select-options" id="monthOptions">
+          <div class="custom-select-option" data-value="jan" data-ar="يناير" data-en="January">يناير</div>
+          <div class="custom-select-option" data-value="feb" data-ar="فبراير" data-en="February">فبراير</div>
+          <div class="custom-select-option" data-value="mar" data-ar="مارس" data-en="March">مارس</div>
+        </div>
+      </div>
+
+      <div class="custom-select-wrapper">
+        <div class="custom-select" id="quarterSelect">
+          <span id="selectedQuarter" data-ar="اختر الربع" data-en="Choose Quarter">اختر الربع</span>
+          <i class="fas fa-chevron-down text-gray-500"></i>
+        </div>
+        <div class="custom-select-options" id="quarterOptions">
+          <div class="custom-select-option" data-value="q1" data-ar="الربع الأول" data-en="Q1">الربع الأول</div>
+          <div class="custom-select-option" data-value="q2" data-ar="الربع الثاني" data-en="Q2">الربع الثاني</div>
+          <div class="custom-select-option" data-value="q3" data-ar="الربع الثالث" data-en="Q3">الربع الثالث</div>
+          <div class="custom-select-option" data-value="q4" data-ar="الربع الرابع" data-en="Q4">الربع الرابع</div>
+        </div>
+      </div>
+
+      <div class="custom-select-wrapper">
+        <div class="custom-select" id="departmentSelect">
+          <input type="text" id="departmentSearch" placeholder="ابحث عن قسم..." 
+                 data-ar="ابحث عن قسم..." data-en="Search for department..." 
+                 class="department-search-input" style="border: none; outline: none; background: transparent; width: 100%;">
+          <span id="selectedDepartment" data-ar="اختر الإدارة/القسم" data-en="Choose Department/Section" style="display: none;">اختر الإدارة/القسم</span>
+          <i class="fas fa-chevron-down text-gray-500"></i>
+        </div>
+        <div class="custom-select-options" id="departmentOptions">
+          <div class="custom-select-option" data-value="all" data-ar="الكل" data-en="All">الكل</div>
+          <!-- All departments will be populated dynamically by JavaScript with edit/delete buttons -->
+          <div class="custom-select-divider"></div>
+          <div class="custom-select-option add-section-option permission-gated" data-permission="add_department" data-value="add-section" data-ar="إضافة قسم جديد" data-en="Add New Section">
+            <i class="fas fa-plus ml-2"></i>
+            <span data-ar="إضافة قسم جديد" data-en="Add New Section">إضافة قسم جديد</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- الرسوم -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="chart-container">
+        <h2 class="text-xl font-semibold text-gray-800 mb-6 text-center" data-ar="تصنيفات البلاغات الواردة حسب النطاق" data-en="Complaint Categories by Scope">تصنيفات البلاغات الواردة حسب النطاق</h2>
+        <div class="relative w-full" style="height: 400px;">
+          <canvas id="complaintCategoriesChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h2 class="text-xl font-semibold text-gray-800 mb-6 text-center" data-ar="إجمالي البلاغات المسجلة في الإدارات - الأقسام" data-en="Total Registered Complaints in Departments - Sections">إجمالي البلاغات المسجلة في الإدارات - الأقسام</h2>
+        <div class="relative w-full" style="height: 400px;">
+          <canvas id="departmentComplaintsChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- تصدير -->
+    <div class="flex justify-center gap-4 mt-8 no-export">
+      <button id="exportReportBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-lg flex items-center permission-gated" data-permission="reports_export" style="display: none;">
+        <i class="fas fa-file-pdf ml-2"></i>
+        <span data-ar="تصدير PDF" data-en="Export PDF">تصدير PDF</span>
+      </button>
+      
+      <button id="exportExcelBtn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full shadow-lg flex items-center permission-gated" data-permission="reports_export" style="display: none;">
+        <i class="fas fa-file-excel ml-2"></i>
+        <span data-ar="تصدير Excel" data-en="Export Excel">تصدير Excel</span>
+      </button>
+      
+      <button id="exportProPdfBtn" type="button"
+        class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-full shadow-lg flex items-center permission-gated"
+        data-permission="reports_export" style="display: none;">
+        <i class="fas fa-file-signature ml-2"></i>
+        <span data-ar="تصدير تقرير  PDF" data-en="Export Pro PDF">تصدير تقرير احترافي PDF</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal for adding new section -->
+  <div id="addSectionModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 data-ar="إضافة قسم جديد" data-en="Add New Section">إضافة قسم جديد</h3>
+        <button class="modal-close" onclick="closeAddSectionModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="addSectionForm">
+          <div class="form-group">
+            <label for="sectionNameAr" data-ar="اسم القسم (عربي)" data-en="Section Name (Arabic)">اسم القسم (عربي)</label>
+            <input type="text" id="sectionNameAr" name="sectionNameAr" required 
+                   placeholder="أدخل اسم القسم باللغة العربية">
+          </div>
+          <div class="form-group">
+            <label for="sectionNameEn" data-ar="اسم القسم (إنجليزي)" data-en="Section Name (English)">اسم القسم (إنجليزي)</label>
+            <input type="text" id="sectionNameEn" name="sectionNameEn" required 
+                   placeholder="Enter section name in English">
+          </div>
+          <div class="form-group">
+            <label for="sectionDescription" data-ar="وصف القسم" data-en="Section Description">وصف القسم</label>
+            <textarea id="sectionDescription" name="sectionDescription" rows="3" 
+                      placeholder="أدخل وصفاً مختصراً للقسم"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeAddSectionModal()" 
+                data-ar="إلغاء" data-en="Cancel">إلغاء</button>
+        <button type="button" class="btn btn-primary" onclick="saveNewSection()" 
+                data-ar="حفظ" data-en="Save">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for editing existing section -->
+  <div id="editSectionModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 data-ar="تعديل القسم" data-en="Edit Section">تعديل القسم</h3>
+        <button class="modal-close" onclick="closeEditSectionModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="editSectionForm">
+          <input type="hidden" id="editSectionId" name="sectionId">
+          <div class="form-group">
+            <label for="editSectionNameAr" data-ar="اسم القسم (عربي)" data-en="Section Name (Arabic)">اسم القسم (عربي)</label>
+            <input type="text" id="editSectionNameAr" name="sectionNameAr" required 
+                   placeholder="أدخل اسم القسم باللغة العربية">
+          </div>
+          <div class="form-group">
+            <label for="editSectionNameEn" data-ar="اسم القسم (إنجليزي)" data-en="Section Name (English)">اسم القسم (إنجليزي)</label>
+            <input type="text" id="editSectionNameEn" name="sectionNameEn" required 
+                   placeholder="Enter section name in English">
+          </div>
+          <div class="form-group">
+            <label for="editSectionDescription" data-ar="وصف القسم" data-en="Section Description">وصف القسم</label>
+            <textarea id="editSectionDescription" name="sectionDescription" rows="3" 
+                      placeholder="أدخل وصفاً مختصراً للقسم"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeEditSectionModal()" 
+                data-ar="إلغاء" data-en="Cancel">إلغاء</button>
+        <button type="button" class="btn btn-primary" onclick="updateSection()" 
+                data-ar="تحديث" data-en="Update">تحديث</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* عناصر لا نريد ظهورها في ملف التصدير */
+    #exportArea.exporting .no-export{ display:none !important; }
+    #exportArea.exporting{ background:#fff; margin-right:0 !important; margin-top:0 !important; padding:24px !important; }
+    #exportArea.exporting .mb-8{ margin-bottom:12px !important; }
+    #exportArea.exporting .p-6{ padding:12px !important; }
+    
+    /* منع أي قصّ بصري أثناء الالتقاط */
+    #exportArea.exporting * { overflow: visible !important; }
+    
+    /* جعل كروت الرسوم لا تُقصّ */
+    #exportArea.exporting .chart-container { page-break-inside: avoid; }
+    #exportArea.exporting .grid{ gap:12px !important; }
+    #exportArea.exporting .chart-container{ page-break-inside: avoid; }
+
+    /* تنسيق أزرار التعديل والحذف */
+    .department-option-with-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+    }
+
+    .department-name {
+      flex: 1;
+      text-align: right;
+    }
+
+    .department-actions {
+      display: flex;
+      gap: 5px;
+      margin-left: 10px;
+    }
+
+    .action-btn {
+      padding: 4px 6px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .edit-btn {
+      background-color: #3b82f6;
+      color: white;
+    }
+
+    .edit-btn:hover {
+      background-color: #2563eb;
+    }
+
+    .delete-btn {
+      background-color: #ef4444;
+      color: white;
+    }
+
+    .delete-btn:hover {
+      background-color: #dc2626;
+    }
+
+    .action-btn i {
+      font-size: 10px;
+    }
+  </style>
+<script>
+  (function () {
+    // استخدمي نفس التخزين عندك: localStorage.user يحتوي RoleID
+    function redirectByRole() {
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (!user) return '/login/login.html';
+
+      const roleId = Number(user.RoleID || user.roleId);
+      if (roleId === 1) return '/superadmin/superadmin-home.html'; // سوبر أدمن
+      if (roleId === 2) return '/employee/employee-home.html';   // موظف
+      if (roleId === 3) return '/dept-admin/dept-admin.html';      // أدمن
+      return '/login/login.html'; // احتياطي
+    }
+
+    // كل روابط "الصفحة الرئيسية" الموجودة في الشريط الجانبي
+    const homeLinks = document.querySelectorAll(
+      'aside .sidebar-menu a.menu-link[href$="/login/login.html"], aside .sidebar-menu a.menu-link[data-en="Home Page"], aside .sidebar-menu a.menu-link[data-ar="الصفحة الرئيسية"]'
+    );
+
+    homeLinks.forEach(a => {
+      // خَلّي النقر يوجّه حسب الدور
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = redirectByRole();
+      });
+
+      // (اختياري) عدّلي الـ href الظاهر للـ Hover/Copy
+      a.setAttribute('href', redirectByRole());
+    });
+  })();
+
+  // Load and apply permissions
+  async function loadAndApplyPermissions() {
+    const API_BASE = (/:5502|:5503/.test(location.href)) ? 'http://localhost:3001' : '';
+    await applyPermissionsToUI(API_BASE);
+  }
+
+  // Load permissions when DOM is ready
+  document.addEventListener('DOMContentLoaded', loadAndApplyPermissions);
+  
+  // Apply permissions to department buttons (for dynamically created elements)
+  async function applyPermissionsToDepartmentButtons() {
+    const API_BASE = (/:5502|:5503/.test(location.href)) ? 'http://localhost:3001' : '';
+    await applyPermissionsToUI(API_BASE);
+  }
+</script>
+  <script src="report-937.js"></script>
+
+</body>
+</html>

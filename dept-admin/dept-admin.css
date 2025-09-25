@@ -1,0 +1,1205 @@
+/* ===== Base Styles ===== */
+body {
+  margin: 0;
+  padding: 0;
+  background: #f9fbfd;
+  color: #333;
+  direction: rtl;
+  line-height: 1.6;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+body.lang-ar {
+  font-family: 'Tajawal', sans-serif !important;
+  text-align: right;
+}
+
+body.lang-en {
+  font-family: 'Merriweather', serif !important;
+  text-align: left;
+}
+
+/* ===== Header Styles ===== */
+.header {
+  background-color: #ffffff;
+  padding: 15px 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #e9ecef;
+  position: relative;
+  z-index: 1000;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1e88e5;
+  margin: 0;
+}
+
+.header-logo {
+  height: 45px;
+  width: auto;
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.profile-link:hover {
+  background-color: #f5f5f5;
+}
+
+.profile-icon-small {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.notif-btn {
+  background: none;
+  border: none;
+  position: relative;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  margin-left: -100px;
+}
+
+.notif-btn:hover {
+  background-color: #f5f5f5;
+}
+
+.notif-icon {
+  width: 24px;
+  height: 24px;
+  fill: #666;
+}
+
+.notif-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lang-toggle-btn {
+  background-color: #3686cbbc;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.lang-toggle-btn:hover {
+  background-color: #1565c0;
+}
+
+.lang-icon {
+  width: 20px;
+  height: 20px;
+}
+
+
+.dept-status-btn {
+  background-color: #10b981;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dept-status-btn:hover {
+  background-color: #059669;
+}
+
+.status-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px 40px;
+  row-gap: 60px;
+  padding: 30px 50px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dashboard .card {
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  text-align: center;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid #e5e7eb;
+}
+
+.card h3,
+.card p {
+  transition: color 0.3s ease;
+}
+
+.dashboard .card img,
+.dashboard .card .card-icon {
+  width: 10px !important;
+  height: 10px !important;
+  margin-bottom: 0px !important;
+  transition: filter 0.3s ease;
+  object-fit: contain;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 10px !important;
+  max-height: 10px !important;
+  min-width: 10px !important;
+  min-height: 10px !important;
+}
+
+.dashboard .card:hover {
+  transform: translateY(-5px);
+  background: linear-gradient(135deg, #172F4A, #3BAAE0);
+  color: #ffffff;
+}
+
+.dashboard .card:hover h3,
+.dashboard .card:hover p {
+  color: #ffffff;
+}
+
+.dashboard .card:hover img,
+.dashboard .card:hover .card-icon {
+  filter: brightness(0) invert(1);
+}
+
+.dashboard .card h3 {
+  margin: 10px 0 5px;
+  font-size: 18px;
+  color: #222;
+}
+
+.dashboard .card p {
+  color: #666;
+  font-size: 14px;
+  margin: 0 0 10px;
+}
+
+.card .btn {
+  display: inline-block;
+  margin-top: 10px;
+  background-color: #1565c0;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.card .btn:hover {
+  background-color: #0d47a1;
+}
+
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Individual Assignment Modal - Higher z-index to appear on top */
+#individualAssignmentModal {
+  z-index: 2000;
+}
+
+/* Complaint Distribution Modal - Lower z-index to appear behind assignment modal */
+#complaintDistributionModal {
+  z-index: 1500;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 0;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+  background: linear-gradient(135deg, #172F4A, #3BAAE0);
+  color: white;
+  padding: 20px;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.close {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close:hover {
+  color: white;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+/* Search Bar */
+.search-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.search-bar button {
+  padding: 10px 20px;
+  background-color: #1565c0;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+  background-color: #0d47a1;
+}
+
+/* Data Tables */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.data-table th {
+  background-color: #f8f9fa;
+  padding: 12px;
+  text-align: right;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.data-table td {
+  padding: 12px;
+  border-bottom: 1px solid #dee2e6;
+  text-align: right;
+}
+
+.data-table tr:hover {
+  /* background-color: #f8f9fa; */
+}
+
+/* Table Actions */
+.table-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.btn-edit {
+  background-color: #ffc107;
+  color: #212529;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-edit:hover {
+  background-color: #e0a800;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+}
+
+.btn-assign {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-assign:hover {
+  background-color: #218838;
+}
+
+/* Filters */
+.assignment-filters,
+.logs-filters {
+  margin-bottom: 20px;
+}
+
+.assignment-filters select,
+.logs-filters select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  min-width: 150px;
+}
+
+/* Responsive Design */
+/* Responsive Design */
+@media (max-width: 1100px) {
+  .dashboard {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 900px;
+    padding: 20px 30px;
+    gap: 30px 30px;
+    row-gap: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 15px 20px;
+    max-width: 600px;
+    gap: 25px 25px;
+    row-gap: 40px;
+  }
+  
+  .modal-content {
+    width: 95%;
+    margin: 10% auto;
+  }
+  
+  .search-bar {
+    flex-direction: column;
+  }
+  
+  .table-actions {
+    flex-direction: column;
+  }
+  
+  .kpi-wrap {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    gap: 20px;
+    row-gap: 30px;
+  }
+  
+  .card {
+    padding: 15px;
+  }
+  
+  .modal-header {
+    padding: 15px;
+  }
+  
+  .modal-body {
+    padding: 15px;
+  }
+  
+  .kpi-wrap {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Additional styles for dashboard components */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.modal-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+
+.table-container {
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Loading and empty states */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-overlay .loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f4f6;
+  border-radius: 50%;
+  border-top-color: #3b82f6;
+  animation: spin 1s ease-in-out infinite;
+}
+
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+
+        /* Department Employees Modal Enhancements */
+        .search-filters-section {
+          margin-bottom: 20px;
+        }
+
+        .quick-filters {
+          display: flex;
+          gap: 10px;
+          margin-top: 10px;
+        }
+
+        .quick-filters select {
+          padding: 8px 12px;
+          border: 1px solid #d1d5db;
+          border-radius: 6px;
+          background: white;
+          font-size: 0.9rem;
+        }
+
+        .sortable {
+          cursor: pointer;
+          user-select: none;
+          position: relative;
+        }
+
+        .sortable:hover {
+          background-color: #f3f4f6;
+        }
+
+        .sort-icon {
+          font-size: 0.8rem;
+          margin-left: 5px;
+          opacity: 0.5;
+        }
+
+        .sortable.asc .sort-icon::after {
+          content: "↑";
+          opacity: 1;
+        }
+
+        .sortable.desc .sort-icon::after {
+          content: "↓";
+          opacity: 1;
+        }
+
+        .empty-state, .error-state {
+          text-align: center;
+          padding: 40px 20px;
+          color: #6b7280;
+        }
+
+        .empty-state p, .error-state p {
+          margin-bottom: 15px;
+          font-size: 1rem;
+        }
+
+        .empty-state button, .error-state button {
+          padding: 8px 16px;
+          background: #3b82f6;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 0.9rem;
+        }
+
+        .empty-state button:hover, .error-state button:hover {
+          background: #2563eb;
+        }
+
+        .pagination {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 15px;
+          margin-top: 20px;
+          padding: 15px 0;
+        }
+
+        .pagination button {
+          padding: 8px 16px;
+          background: #f3f4f6;
+          border: 1px solid #d1d5db;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 0.9rem;
+          transition: background 0.2s ease;
+        }
+
+        .pagination button:hover:not(:disabled) {
+          background: #e5e7eb;
+        }
+
+        .pagination button:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        .pagination span {
+          font-size: 0.9rem;
+          color: #374151;
+        }
+
+        .status-badge {
+          padding: 4px 8px;
+          border-radius: 12px;
+          font-size: 0.8rem;
+          font-weight: 500;
+        }
+
+        .status-active {
+          background: #dcfce7;
+          color: #166534;
+        }
+
+        .status-inactive {
+          background: #fef2f2;
+          color: #dc2626;
+        }
+
+        .role-badge {
+          padding: 4px 8px;
+          border-radius: 12px;
+          font-size: 0.8rem;
+          font-weight: 500;
+        }
+
+        .role-employee {
+          background: #dbeafe;
+          color: #1e40af;
+        }
+
+                 .role-admin {
+           background: #fef3c7;
+           color: #92400e;
+         }
+
+         /* Department Complaints Modal Enhancements */
+         .complaints-table-container {
+           position: relative;
+           min-height: 200px;
+         }
+
+         .complaints-table-container .data-table {
+           margin-top: 0;
+         }
+
+         .complaints-table-container td[colspan] {
+           text-align: center;
+           padding: 40px 20px;
+           color: #6b7280;
+           font-style: italic;
+         }
+
+         .complaints-table-container td[colspan].error {
+           color: #dc3545;
+           font-style: normal;
+         }
+
+         /* Assignment Modal Styles */
+         .form-control {
+           width: 100%;
+           padding: 10px;
+           border: 1px solid #d1d5db;
+           border-radius: 6px;
+           font-size: 14px;
+           background: white;
+         }
+
+         .form-control:focus {
+           outline: none;
+           border-color: #3b82f6;
+           box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+         }
+
+         .btn-cancel {
+           background: #6b7280;
+           color: white;
+           border: none;
+           padding: 8px 16px;
+           border-radius: 6px;
+           cursor: pointer;
+           font-size: 0.9rem;
+           transition: background 0.2s ease;
+         }
+
+         .btn-cancel:hover {
+           background: #4b5563;
+         }
+
+         .btn-confirm {
+           background: #10b981;
+           color: white;
+           border: none;
+           padding: 8px 16px;
+           border-radius: 6px;
+           cursor: pointer;
+           font-size: 0.9rem;
+           transition: background 0.2s ease;
+         }
+
+         .btn-confirm:hover {
+           background: #059669;
+         }
+
+         /* Assignment Table Enhancements */
+         .assignment-table-container {
+           position: relative;
+           min-height: 200px;
+         }
+
+         .assignment-table-container .data-table {
+           margin-top: 0;
+         }
+
+         .assignment-table-container td[colspan] {
+           text-align: center;
+           padding: 40px 20px;
+           color: #6b7280;
+           font-style: italic;
+         }
+
+         /* Individual Assignment Modal Loading */
+         #assignmentLoading {
+           position: absolute;
+           top: 0;
+           left: 0;
+           right: 0;
+           bottom: 0;
+           background: rgba(255, 255, 255, 0.9);
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           justify-content: center;
+           z-index: 1001;
+         }
+
+                   #assignmentLoading p {
+            margin-top: 15px;
+            color: #374151;
+            font-size: 14px;
+          }
+
+          /* Edit Permissions Modal Styles */
+          .employee-info-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3b82f6;
+          }
+
+          .employee-info-section h3 {
+            margin: 0 0 8px 0;
+            color: #1f2937;
+            font-size: 1.1rem;
+          }
+
+          .employee-info-section p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 0.9rem;
+          }
+
+          .permissions-section {
+            margin-bottom: 20px;
+          }
+
+          .permissions-section h4 {
+            margin: 0 0 15px 0;
+            color: #374151;
+            font-size: 1rem;
+            font-weight: 600;
+          }
+
+          .permissions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: #fafafa;
+          }
+
+          .permission-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+          }
+
+          .permission-item:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+          }
+
+          .permission-item input[type="checkbox"] {
+            margin-left: 10px;
+            width: 16px;
+            height: 16px;
+            accent-color: #3b82f6;
+          }
+
+          .permission-item label {
+            flex: 1;
+            margin: 0;
+            font-size: 0.9rem;
+            color: #374151;
+            cursor: pointer;
+            user-select: none;
+          }
+
+          .permission-item .permission-description {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: 2px;
+          }
+
+          /* Permissions Loading State */
+          #permissionsLoading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+          }
+
+          #permissionsLoading p {
+            margin-top: 15px;
+            color: #374151;
+            font-size: 14px;
+          }
+          /* ============ 1) تسوية شبكة البطاقات ============ */
+.cards-grid{
+  display:grid;
+  grid-template-columns: repeat(4, minmax(280px,1fr)); /* عدّل 4 إذا بغيت */
+  gap:24px;
+  align-items:stretch;      /* نفس الارتفاع داخل الصف */
+  justify-items:stretch;    /* البطاقة تاخذ عرض العمود كامل */
+}
+@media (max-width:1280px){ .cards-grid{ grid-template-columns: repeat(3, minmax(260px,1fr)); } }
+@media (max-width:992px){  .cards-grid{ grid-template-columns: repeat(2, minmax(240px,1fr)); } }
+@media (max-width:640px){  .cards-grid{ grid-template-columns: 1fr; } }
+
+/* ============ 2) قواعد مشتركة تُطبَّق على النوعين ============ */
+.feature-card,
+.card.permission-gated{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  padding:24px 20px;
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,.06);
+  border:2px solid transparent;
+  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+
+/* هوفر موحد */
+.feature-card:hover,
+.card.permission-gated:hover{
+  transform: translateY(-4px);
+  box-shadow:0 12px 28px rgba(0,0,0,.08);
+  border-color:#3b82f6;
+}
+
+/* الأيقونة */
+.card-icon{ width:50px; height:50px; object-fit:contain; margin:0 auto 14px; filter:grayscale(.1); transition:transform .2s ease, filter .2s ease; }
+.feature-card:hover .card-icon,
+.card.permission-gated:hover .card-icon{ transform:scale(1.06) rotate(2deg); filter:none; }
+
+/* العنوان والوصف بارتفاعات دنيا لضبط التوازن */
+.card-title, .cards-grid h3{
+  text-align:center;
+  font-weight:800;
+  font-size:22px;
+  margin:8px 0 6px;
+  line-height:1.3;
+  min-height:32px; /* ~سطر */
+}
+.card-sub, .cards-grid p{
+  text-align:center;
+  color:#6b7280;
+  font-size:16px;
+  line-height:1.7;
+  margin:10px 0;
+  min-height:48px;           /* ~سطرين */
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+
+/* ============ 3) تثبيت زر الإجراء بأسفل كل بطاقة ============ */
+/* الكروت الجديدة (عندها .card-body/.card-action) */
+.feature-card .card-body{ display:flex; flex-direction:column; gap:12px; flex:1; }
+.feature-card .card-action{ margin-top:auto; }
+
+/* الكروت القديمة (بدون .card-body) */
+.card.permission-gated .btn{ margin-top:auto; }      /* ادفع الزر لأسفل */
+.card.permission-gated a.btn{ align-self:center; }   /* توسيط */
+
+/* ============ 4) توحيد الأزرار ============ */
+.btn{ width:100%; padding:12px 16px; border-radius:10px; font-weight:800; border:0; }
+.btn-primary{ background:#1366c5; color:#fff; }
+.btn-primary:hover{ filter:brightness(.93); }
+.btn:disabled{ opacity:.55; cursor:not-allowed; }
+
+/* أي زر كان “outline” خليه نفس الأساسي (حل مشكلة الزر المختلف باللقطة) */
+.btn-outline, .btn--outline{ background:#1366c5 !important; color:#fff !important; border:0 !important; }
+
+/* إزالة قيود تسبب اختلاف عرض البطاقة */
+.dashboard{ padding:20px; gap:24px; display:block; }    /* ما نحتاج grid ثانية هنا */
+.cards-grid .card, .cards-grid .feature-card{ max-width:none; } /* خذ عرض العمود كامل */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* ٤ أعمدة متساوية */
+  gap: 24px; /* المسافة بين الكروت */
+  align-items: stretch;
+  justify-items: stretch;
+  width: 100%;        /* تاخذ عرض الصفحة كامل */
+  max-width: 1400px;  /* ممكن تحدد أقصى عرض */
+  margin: 0 auto;     /* توسيط الشبكة بالصفحة */
+}
+
+/* شاشات متوسطة */
+@media (max-width: 1200px) {
+  .cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* شاشات تابلت */
+@media (max-width: 900px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* جوال */
+@media (max-width: 600px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.btn,
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-align: center;
+  background: #1366c5;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn:hover,
+.btn-primary:hover {
+  background: #0d4d91;
+}
+
+/* شبكة 4 أعمدة ثابتة */
+.cards-grid{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:24px;
+  align-items:stretch;
+  justify-items:stretch;
+  width:100%;
+  max-width:1400px;
+  margin:0 auto;
+}
+@media (max-width:1200px){ .cards-grid{ grid-template-columns: repeat(3,1fr); } }
+@media (max-width:900px) { .cards-grid{ grid-template-columns: repeat(2,1fr); } }
+@media (max-width:600px) { .cards-grid{ grid-template-columns: 1fr; } }
+
+/* كل البطاقات عموديّة بنفس السلوك */
+.feature-card,
+.card.permission-gated{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+
+/* الكروت الجديدة */
+.feature-card .card-body{ display:flex; flex-direction:column; flex:1; }
+.feature-card .card-action{ margin-top:auto; }
+
+/* الكروت القديمة (اللي الزر داخلها مباشرة) */
+.cards-grid .card.permission-gated > a.btn{
+  margin-top:auto !important;
+  align-self:center;
+  width:100% !important;
+}
+
+/* زر موحّد */
+.cards-grid .btn,
+.cards-grid .btn-primary{
+  display:block;
+  width:100%;
+  padding:12px 16px;
+  border-radius:10px;
+  font-weight:800;
+  background:#1366c5;
+  color:#fff;
+  border:0;
+  margin:0 !important;
+}
+
+/* ارتفاعات دنيا للعنوان والوصف (تخفف التفاوت) */
+.cards-grid .card-title{
+  margin:8px 0 6px;
+  line-height:1.3;
+  text-align:center;
+  min-height:56px;                 /* ≈ سطرين */
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.cards-grid .card-sub{
+  text-align:center;
+  color:#6b7280;
+  line-height:1.7;
+  margin:10px 0;
+  min-height:72px;                 /* ≈ 2–3 أسطر */
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+/* شبكة ثابتة: كل ٤ بطاقات في صف واحد */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* أربع أعمدة دائمًا */
+  gap: 24px;
+  align-items: stretch;
+  justify-items: stretch;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* حتى لو الشاشة صغيرة، تظل ٤ أعمدة (تلغي التبديل لعمودين/ثلاثة) */
+@media (max-width: 1200px) {
+  .cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (max-width: 900px) {
+  .cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+/* 1) خلّي البطاقة عمودية والزر يلتصق بأسفلها */
+.cards-grid .card,
+.cards-grid .feature-card,
+.cards-grid .card.permission-gated{
+  display: flex;
+  flex-direction: column;
+}
+
+/* 2) ثبّت زر الإجراء بأسفل كل بطاقة */
+.cards-grid .btn,
+.cards-grid .btn-primary,
+.cards-grid .card.permission-gated > a.btn,
+.cards-grid .feature-card .card-action .btn{
+  margin-top: auto !important;   /* يدفع الزر لأسفل */
+  width: 100%;
+}
+
+/* 3) أعطِ العنوان والوصف ارتفاعات دنيا تكفي أطول بطاقة
+   (عدّل الأرقام لو احتجت سطر زيادة/نقص) */
+.cards-grid .card-title,
+.cards-grid h3{
+  min-height: 72px;              /* ≈ سطرين عنوان */
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 8px 0 6px;
+  text-align: center;
+}
+
+.cards-grid .card-sub,
+.cards-grid p{
+  min-height: 108px;             /* ≈ 3 أسطر وصف */
+  line-height: 1.7;
+  color: #6b7280;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 10px 0;
+  text-align: center;
+}
+
+
+
+
+/* اضبط الوصف (حتى 3 أسطر تقريبًا) */
+
+
+/* ثبّت زر الإجراء بأسفل البطاقة دائمًا */
+
+/* أيقونات الكروت - تكبير محتوى الصور */
+.dashboard .card img,
+.dashboard .card .card-icon,
+.dashboard .card .card-icon-small {
+  width: 24px !important;
+  height: 24px !important;
+  max-width: 24px !important;
+  max-height: 24px !important;
+  min-width: 24px !important;
+  min-height: 24px !important;
+  margin: 0 auto 0px auto !important; /* توسيط بدون مسافة تحت */
+  object-fit: contain;
+  transform: scale(2);
+  transition: all 0.3s ease;
+}
+

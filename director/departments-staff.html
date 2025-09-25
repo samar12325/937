@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-ar="إدارة الأقسام والموظفين" data-en="Departments & Staff Management">إدارة الأقسام والموظفين</title>
+  
+  <!-- خطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- أنماط -->
+  <link rel="stylesheet" href="/superadmin/superadmin.css">
+  <link rel="stylesheet" href="departments-staff.css">
+</head>
+<body class="lang-ar">
+
+  <!-- زر الرجوع -->
+  <div class="back-button">
+    <a href="#" onclick="goBack()">
+      <img src="/icon/Back.png" alt="Back Icon" class="back-icon" />
+      <span data-ar="عودة للوحة المدير" data-en="Back to Director Dashboard">عودة للوحة المدير</span>
+    </a>
+  </div>
+
+  <!-- الهيدر -->
+  <header class="header">
+    <div class="header-content">
+      <div class="header-title" data-ar="بلاغات 937" data-en="Reports 937">بلاغات 937</div>
+      <img src="/icon/hospital-logo.png" alt="شعار المستشفى" class="header-logo">
+      <button id="langToggle" class="lang-toggle-btn">
+        <img src="/icon/lang.png" alt="language" class="lang-icon" />
+        <span id="langText">العربية | English</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="departments-layout" style="display: grid; visibility: visible; margin-top: 20px;">
+    <!-- لوحة الأقسام -->
+    <section class="card departments-panel" aria-label="Departments Panel" 
+             style="display: flex; flex-direction: column; visibility: visible; background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; min-height: 400px;">
+      <div class="panel-header" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <h3 class="panel-title" data-ar="الأقسام" data-en="Departments" style="margin: 0; font-size: 20px; font-weight: 700;">الأقسام</h3>
+        <div class="search-wrap" style="display: flex; gap: 8px;">
+          <input id="department-search" type="search" class="form-control"
+                 data-ar="ابحث في الأقسام..." data-en="Search departments..."
+                 placeholder="ابحث في الأقسام..." aria-label="بحث الأقسام" 
+                 style="height: 40px; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0 12px;" />
+          <button id="clear-dept-search" class="btn btn-secondary" type="button"
+                  data-ar="مسح" data-en="Clear" 
+                  style="padding: 10px 16px; border: 1px solid #e5e7eb; background: #f8fafc; border-radius: 8px;">مسح</button>
+        </div>
+      </div>
+
+      <div id="departments-list" class="departments-list" role="list" aria-live="polite" 
+           style="display: flex; flex-direction: column; gap: 8px; flex: 1;"></div>
+      <div id="no-departments" class="empty-state" hidden
+           data-ar="لا توجد أقسام." data-en="No departments found.">لا توجد أقسام.</div>
+      
+      <div id="loading-departments" class="loading-state"
+           data-ar="جارٍ تحميل الأقسام..." data-en="Loading departments..."
+           style="padding: 24px; text-align: center; color: #1e40af; border: 1px dashed #1e40af; border-radius: 8px;">
+        جارٍ تحميل الأقسام...
+      </div>
+    </section>
+
+    <!-- Right Column Container -->
+    <div class="right-column">
+      <!-- محدد القسم الرئيسي -->
+      <div class="department-selector-bar" style="display: block; visibility: visible; margin: 0 0 20px 0;">
+        <div class="selector-content" style="display: flex; visibility: visible;">
+          <label for="main-department-selector" data-ar="اختر قسماً:" data-en="Select Department:">اختر قسماً:</label>
+          <select id="main-department-selector" class="form-control department-selector">
+            <option value="" data-ar="اختر قسماً..." data-en="Choose department...">اختر قسماً...</option>
+          </select>
+          <div class="department-counters" id="departmentCounters" hidden>
+            <span class="counter-item">
+              <span id="main-employees-count">0</span>
+              <span data-ar="موظف" data-en="employees">موظف</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- لوحة الموظفين -->
+      <section class="card employees-panel" aria-label="Employees Panel"
+               style="display: flex; flex-direction: column; visibility: visible; background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; min-height: 400px;">
+        <div class="panel-header" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+          <h3 class="panel-title" data-ar="الموظفين" data-en="Employees" style="margin: 0; font-size: 20px; font-weight: 700;">الموظفين</h3>
+          <div class="panel-actions" style="margin-top:0; margin-bottom:24px;">
+            <button id="add-employee-btn" class="btn btn-primary" disabled
+              data-ar="إضافة موظف" data-en="Add Employee"
+              style="padding: 10px 16px; background: #1e40af; color: white; border: none; border-radius: 8px; font-weight: 600;">إضافة موظف</button>
+          </div>
+        </div>
+
+        <div id="select-department-hint" class="hint"
+             data-ar="اختر قسماً من القائمة لعرض موظفيه"
+             data-en="Select a department from the list to view its employees"
+             style="padding: 20px; text-align: center; color: #6b7280; background: #f8fafc; border: 1px dashed #e5e7eb; border-radius: 8px;">
+          اختر قسماً من القائمة لعرض موظفيه
+        </div>
+
+        <!-- معلومات القسم المحدد -->
+        <div id="selected-department-info" class="department-info" hidden 
+             style="background: #f8fafc; border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+          <div class="department-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <h4 id="selected-department-name" style="margin: 0; font-size: 18px; font-weight: 700;">—</h4>
+            <div class="department-stats" style="display: flex; gap: 12px;">
+              <span class="stat-badge" style="padding: 4px 8px; background: rgba(30, 64, 175, 0.1); color: #1e40af; border-radius: 999px; font-size: 12px;">
+                <span id="employees-count">0</span>
+                <span data-ar="موظف" data-en="employees">موظف</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div id="employees-list" class="employees-list" hidden 
+             style="display: flex; flex-direction: column; gap: 8px;"></div>
+        <div id="no-employees" class="empty-state" hidden
+             data-ar="لا يوجد موظفون في هذا القسم." data-en="No employees in this department."
+             style="padding: 24px; text-align: center; color: #6b7280; border: 1px dashed #e5e7eb; border-radius: 8px;">لا يوجد موظفون في هذا القسم.</div>
+        
+        <div id="loading-employees" class="loading-state" hidden
+             data-ar="جارٍ تحميل الموظفين..." data-en="Loading employees..."
+             style="padding: 24px; text-align: center; color: #1e40af; border: 1px dashed #1e40af; border-radius: 8px;">
+          جارٍ تحميل الموظفين...
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- نموذج إضافة موظف -->
+  <div id="add-employee-modal" class="modal" hidden>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 data-ar="إضافة موظف جديد" data-en="Add New Employee">إضافة موظف جديد</h3>
+        <button id="close-modal" class="close-btn">&times;</button>
+      </div>
+      
+      <form id="add-employee-form" class="employee-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label data-ar="الاسم الكامل" data-en="Full Name" data-required="true">الاسم الكامل</label>
+            <input type="text" id="employee-fullname" class="form-control" required 
+                   minlength="2" maxlength="150" 
+                   data-ar="أدخل الاسم الكامل" data-en="Enter full name"
+                   placeholder="أدخل الاسم الكامل">
+          </div>
+          <div class="form-group">
+            <label data-ar="البريد الإلكتروني" data-en="Email" data-required="true">البريد الإلكتروني</label>
+            <input type="email" id="employee-email" class="form-control" required
+                   data-ar="أدخل البريد الإلكتروني" data-en="Enter email address"
+                   placeholder="أدخل البريد الإلكتروني">
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label data-ar="رقم الهاتف" data-en="Phone Number">رقم الهاتف</label>
+            <input type="tel" id="employee-phone" class="form-control">
+          </div>
+          <div class="form-group">
+            <label data-ar="رقم الموظف" data-en="Employee Number">رقم الموظف</label>
+            <input type="text" id="employee-number" class="form-control">
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label data-ar="المسمى الوظيفي" data-en="Job Title" data-required="true">المسمى الوظيفي</label>
+            <input type="text" id="employee-jobtitle" class="form-control" required
+                   minlength="2" maxlength="150"
+                   data-ar="أدخل المسمى الوظيفي" data-en="Enter job title"
+                   placeholder="أدخل المسمى الوظيفي">
+          </div>
+          <div class="form-group">
+            <label data-ar="القسم" data-en="Department" data-required="true">القسم</label>
+            <select id="employee-department" class="form-control" required>
+              <option value="" data-ar="اختر قسماً..." data-en="Choose department...">اختر قسماً...</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label data-ar="الدور" data-en="Role">الدور</label>
+            <select id="employee-role" class="form-control" required>
+              <option value="2" data-ar="موظف" data-en="Employee">موظف</option>
+              <option value="3" data-ar="مدير قسم" data-en="Department Manager">مدير قسم</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <!-- مساحة فارغة للتوازن -->
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label data-ar="اسم المستخدم" data-en="Username" data-required="true">اسم المستخدم</label>
+            <input type="text" id="employee-username" class="form-control" required
+                   minlength="3" maxlength="80"
+                   pattern="[a-zA-Z0-9_]+"
+                   data-ar="أدخل اسم المستخدم" data-en="Enter username"
+                   placeholder="أدخل اسم المستخدم"
+                   title="يجب أن يحتوي على أحرف وأرقام فقط">
+          </div>
+          <div class="form-group">
+            <label data-ar="كلمة المرور" data-en="Password" data-required="true">كلمة المرور</label>
+            <input type="password" id="employee-password" class="form-control" required
+                   minlength="6"
+                   data-ar="أدخل كلمة المرور" data-en="Enter password"
+                   placeholder="أدخل كلمة المرور"
+                   title="يجب أن تحتوي على 6 أحرف على الأقل">
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" id="cancel-add" class="btn btn-secondary"
+                  data-ar="إلغاء" data-en="Cancel">إلغاء</button>
+          <button type="submit" class="btn btn-primary"
+                  data-ar="إضافة الموظف" data-en="Add Employee">إضافة الموظف</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast للرسائل -->
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden>
+    <span id="toast-message"></span>
+  </div>
+
+  <script src="departments-staff.js"></script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+/* Default body styles */
+body {
+  direction: rtl;
+  background-color: #f0f2f5; /* Light gray background */
+}
+
+/* لغة عربية */
+body.lang-ar {
+  font-family: 'Tajawal', sans-serif;
+  text-align: right;
+}
+
+/* لغة إنجليزية */
+body.lang-en {
+  font-family: serif;
+  text-align: left;
+}
+
+/* ===== Header ===== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: white;
+  height: 75px;
+  padding: 0 30px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1e88e5;
+}
+
+.header-logo {
+  height: 45px;
+}
+
+.lang-toggle-btn {
+  background-color: #3686cbbc;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.lang-toggle-btn:hover {
+  background-color: #1565c0;
+}
+
+.lang-icon {
+  width: 20px;
+  height: 20px;
+}
+#quarterFilter, #yearFilter {
+  min-width: 140px;
+  cursor: pointer;
+}
+
+
+/* ===== Sidebar ===== */
+aside {
+  width: 250px;
+  min-width: 250px;
+  background-color: white;
+  height: 100vh;
+  border-left: 1px solid #e0e0e0;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding-top: 75px; /* Adjust to fixed header height */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+aside ul {
+  list-style: none;
+  padding: 0;
+}
+
+aside li {
+  padding: 12px 10px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+aside li a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+aside li.active {
+  background-color: #e6f0ff;
+  color: #007bff;
+}
+
+aside li:hover {
+  background-color: #e6f0ff;
+  color: #DC2626; /* red-600 */
+}
+
+/* ===== Modal ===== */
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.modal-content {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* ===== Dropdown (custom select) ===== */
+.custom-select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+
+.custom-select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+}
+
+.custom-select:hover {
+  border-color: #a0aec0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.custom-select-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 500;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+}
+
+.custom-select-options.open {
+  display: block;
+}
+
+.custom-select-option {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.custom-select-option:hover {
+  background-color: #f0f2f5;
+}
+
+
+
+
+/* ===== Donut chart legend beside chart ===== */
+
+/* صف يحتوي الدونات + الأسطورة */
+.chart-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+/* الأسطورة الجانبية */
+.legend-side {
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 14px;
+  color: #374151; /* gray-700 */
+}
+
+.legend-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+}
+
+.legend-pct {
+  font-weight: 700;
+}
+
+
+
+/* Responsive */
+@media (max-width: 640px) {
+  .chart-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .legend-side {
+    width: 100%;
+    max-width: 260px;
+  }
+}
+.chart-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.legend-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 50px; /* 🔹 هذه هي المسافة بين الدائرة والليجند */
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin: 6px 0;
+  gap: 8px;
+}
+
+.legend-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+}

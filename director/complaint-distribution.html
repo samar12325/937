@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-ar="توزيع البلاغات" data-en="Complaint Distribution">توزيع البلاغات</title>
+  
+  <!-- خطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- أنماط -->
+  <link rel="stylesheet" href="/superadmin/superadmin.css">
+  <link rel="stylesheet" href="complaint-distribution.css">
+</head>
+<body class="lang-ar">
+لا
+  <!-- زر الرجوع -->
+  <div class="back-button">
+    <a href="#" onclick="goBack()">
+      <img src="/icon/Back.png" alt="Back Icon" class="back-icon" />
+      <span data-ar="عودة للوحة المدير" data-en="Back to Director Dashboard">عودة للوحة المدير</span>
+    </a>
+  </div>
+
+  <!-- الهيدر -->
+  <header class="header">
+    <div class="header-content">
+      <div class="header-title" data-ar="بلاغات 937" data-en="Reports 937">بلاغات 937</div>
+      <img src="/icon/hospital-logo.png" alt="شعار المستشفى" class="header-logo">
+      <button id="langToggle" class="lang-toggle-btn">
+        <img src="/icon/lang.png" alt="language" class="lang-icon" />
+        <span id="langText">العربية | English</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="distribution-layout">
+    <!-- لوحة البلاغات -->
+    <section class="card complaints-panel" aria-label="Complaints Panel">
+      <div class="panel-header">
+        <h3 class="panel-title" data-ar="البلاغات" data-en="Complaints">البلاغات</h3>
+        
+        <!-- تبويبات الحالة -->
+        <div class="status-tabs">
+          <button id="unassigned-tab" class="tab-btn active" data-status="unassigned"
+                  data-ar="غير معينة" data-en="Unassigned">غير معينة</button>
+          <button id="assigned-tab" class="tab-btn" data-status="assigned"
+                  data-ar="معينة" data-en="Assigned">معينة</button>
+        </div>
+      </div>
+
+      <!-- مرشحات -->
+      <div class="filters-section">
+        <div class="filters-row">
+          <select id="category-filter" class="form-control">
+            <option value="" data-ar="جميع الفئات" data-en="All Categories">جميع الفئات</option>
+          </select>
+          <select id="priority-filter" class="form-control">
+            <option value="" data-ar="جميع الأولويات" data-en="All Priorities">جميع الأولويات</option>
+            <option value="عاجل" data-ar="عاجل" data-en="Urgent">عاجل</option>
+            <option value="عالية" data-ar="عالية" data-en="High">عالية</option>
+            <option value="متوسطة" data-ar="متوسطة" data-en="Medium">متوسطة</option>
+            <option value="منخفضة" data-ar="منخفضة" data-en="Low">منخفضة</option>
+          </select>
+          <select id="department-filter" class="form-control">
+            <option value="" data-ar="جميع الأقسام" data-en="All Departments">جميع الأقسام</option>
+          </select>
+        </div>
+        
+        <div class="filters-row">
+          <input type="date" id="date-from" class="form-control">
+          <input type="date" id="date-to" class="form-control">
+          <button id="clear-filters" class="btn btn-secondary"
+                  data-ar="مسح المرشحات" data-en="Clear Filters">مسح المرشحات</button>
+        </div>
+      </div>
+
+      <!-- قائمة البلاغات -->
+      <div class="complaints-container">
+        <div class="complaints-actions">
+          <div class="selection-info">
+            <span id="selected-count">0</span>
+            <span data-ar="بلاغ  محددة" data-en="complaints selected">بلاغ  محددة</span>
+          </div>
+          <div class="bulk-actions">
+            <button id="assign-selected-btn" class="btn btn-primary" disabled
+                    data-ar="تعيين المحدد" data-en="Assign Selected">تعيين المحدد</button>
+          </div>
+        </div>
+        
+        <div id="complaints-list" class="complaints-list"></div>
+        <div id="no-complaints" class="empty-state" hidden
+             data-ar="لا توجد شكاوى." data-en="No complaints found.">لا توجد شكاوى.</div>
+        
+        <div id="loading-complaints" class="loading-state"
+             data-ar="جارٍ تحميل البلاغات..." data-en="Loading complaints...">
+          جارٍ تحميل البلاغات...
+        </div>
+      </div>
+    </section>
+
+    <!-- لوحة التعيين -->
+    <section class="card assignment-panel" aria-label="Assignment Panel">
+      <div class="panel-header">
+        <h3 class="panel-title" data-ar="تعيين البلاغات" data-en="Assignment">تعيين البلاغات</h3>
+      </div>
+
+      <div id="no-selection-hint" class="hint"
+           data-ar="اختر بلاغ  أو أكثر من القائمة للتعيين"
+           data-en="Select one or more complaints from the list to assign">
+        اختر بلاغ  أو أكثر من القائمة للتعيين
+      </div>
+
+      <!-- نموذج التعيين -->
+      <div id="assignment-form" class="assignment-form" hidden>
+        <div class="selected-complaints-info">
+          <h4 data-ar="البلاغات المحددة" data-en="Selected Complaints">البلاغات المحددة</h4>
+          <div id="selected-complaints-list" class="selected-list"></div>
+        </div>
+
+        <!-- اقتراح النظام -->
+        <div id="system-suggestion" class="suggestion-box" hidden>
+          <div class="suggestion-header">
+            <h5 data-ar="اقتراح النظام" data-en="System Suggestion">اقتراح النظام</h5>
+          </div>
+          <div id="suggestion-content" class="suggestion-content"></div>
+          <button id="apply-suggestion" class="btn btn-secondary"
+                  data-ar="تطبيق الاقتراح" data-en="Apply Suggestion">تطبيق الاقتراح</button>
+        </div>
+
+        <!-- تعيين يدوي -->
+        <div class="manual-assignment">
+          <h5 data-ar="تعيين يدوي" data-en="Manual Assignment">تعيين يدوي</h5>
+          
+          <div class="assignment-steps">
+            <div class="step">
+              <label data-ar="الخطوة 1: اختيار القسم" data-en="Step 1: Choose Department">الخطوة 1: اختيار القسم</label>
+              <select id="assign-department" class="form-control" required>
+                <option value="" data-ar="اختر قسماً..." data-en="Choose department...">اختر قسماً...</option>
+              </select>
+            </div>
+            
+            <div class="step">
+              <label data-ar="الخطوة 2: اختيار الموظف (اختياري)" data-en="Step 2: Choose Employee (Optional)">الخطوة 2: اختيار الموظف (اختياري)</label>
+              <select id="assign-employee" class="form-control" disabled>
+                <option value="" data-ar="اختر موظفاً..." data-en="Choose employee...">اختر موظفاً...</option>
+              </select>
+              <small class="form-hint" data-ar="اتركه فارغاً للتعيين للقسم فقط" data-en="Leave empty to assign to department only">اتركه فارغاً للتعيين للقسم فقط</small>
+            </div>
+            
+            <div class="step">
+              <label data-ar="ملاحظة (اختياري)" data-en="Note (Optional)">ملاحظة (اختياري)</label>
+              <textarea id="assignment-reason" class="form-control" rows="3"
+                       data-ar="سبب التعيين أو ملاحظات..." data-en="Assignment reason or notes..."
+                       placeholder="سبب التعيين أو ملاحظات..."></textarea>
+            </div>
+          </div>
+          
+          <div class="assignment-actions">
+            <button id="cancel-assignment" class="btn btn-secondary"
+                    data-ar="إلغاء" data-en="Cancel">إلغاء</button>
+            <button id="confirm-assignment" class="btn btn-primary"
+                    data-ar="تأكيد التعيين" data-en="Confirm Assignment">تأكيد التعيين</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast للرسائل -->
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden>
+    <span id="toast-message"></span>
+  </div>
+
+  <script src="complaint-distribution.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Add Section - Report 937</title>
+  <style>
+    body {
+      font-family: 'Tajawal', Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .test-section {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .success { border-color: #10b981; background-color: #f0fdf4; }
+    .info { border-color: #3b82f6; background-color: #eff6ff; }
+    .warning { border-color: #f59e0b; background-color: #fffbeb; }
+    .test-button {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 10px;
+      transition: background 0.3s;
+    }
+    .test-button:hover {
+      background: #2563eb;
+    }
+    .code {
+      background: #f3f4f6;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: monospace;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔧 Test Add Section Fix - Report 937</h1>
+    
+    <div class="test-section success">
+      <h3>✅ Issue Fixed!</h3>
+      <p>The "Add Section" option should now appear in the dropdown menu.</p>
+    </div>
+
+    <div class="test-section info">
+      <h3>🔧 What Was Fixed</h3>
+      <p>The issue was in the <code>populateDepartmentDropdown()</code> function:</p>
+      <div class="code">
+        // Before (removed "Add Section" option):
+        const existingOptions = departmentOptions.querySelectorAll('.custom-select-option:not([data-value="all"])');
+        
+        // After (preserves "Add Section" option):
+        const existingOptions = departmentOptions.querySelectorAll('.custom-select-option:not([data-value="all"]):not([data-value="add-section"])');
+      </div>
+    </div>
+
+    <div class="test-section warning">
+      <h3>🆕 New Function Added</h3>
+      <p>Added <code>ensureAddSectionOption()</code> function that:</p>
+      <ul>
+        <li>Checks if "Add Section" option exists</li>
+        <li>Creates it dynamically if missing</li>
+        <li>Adds proper styling and icon</li>
+        <li>Ensures it's always available</li>
+      </ul>
+    </div>
+
+    <div class="test-section success">
+      <h3>🎯 Test the Fix</h3>
+      <p>Go to the main report page and check the dropdown:</p>
+      <button class="test-button" onclick="window.open('report-937.html', '_blank')">
+        Open Report 937
+      </button>
+    </div>
+
+    <div class="test-section info">
+      <h3>📋 What You Should See</h3>
+      <ol>
+        <li>Open the department dropdown</li>
+        <li>Scroll to the bottom</li>
+        <li>You should see a divider line</li>
+        <li>Below that: "إضافة قسم جديد" with a plus icon</li>
+        <li>Clicking it should open the modal</li>
+      </ol>
+    </div>
+
+    <div class="test-section warning">
+      <h3>🔍 Console Debugging</h3>
+      <p>Open browser console (F12) to see:</p>
+      <div class="code">
+        ✅ "Add Section" option added to dropdown
+        📋 Department dropdown populated with 70 departments
+      </div>
+    </div>
+  </div>
+</body>
+</html>

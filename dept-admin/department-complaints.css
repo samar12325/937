@@ -1,0 +1,1177 @@
+
+/* ===== Base Styles ===== */
+body {
+  margin: 0;
+  padding: 0;
+  background: #f9fbfd;
+  color: #333;
+  direction: rtl;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+body.lang-ar {
+  font-family: 'Tajawal', sans-serif !important;
+  text-align: right;
+}
+
+body.lang-en {
+  font-family: 'Merriweather', serif !important;
+  text-align: left;
+}
+
+
+
+
+/* ===== Language Toggle Button ===== */
+.lang-toggle-btn {
+  background-color: #3686cb;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(54, 134, 203, 0.2);
+}
+
+.lang-toggle-btn:hover {
+  background-color: #1565c0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(54, 134, 203, 0.3);
+}
+
+.lang-icon {
+  width: 20px;
+  height: 20px;
+}
+
+
+/* ===== Header Styles ===== */
+.header {
+  background-color: #ffffff;
+  padding: 15px 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #e9ecef;
+  position: relative;
+  z-index: 1000;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1e88e5;
+  margin: 0;
+}
+
+.header-logo {
+  height: 45px;
+  width: auto;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1e88e5;
+}
+
+.header-logo {
+  height: 45px;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 15px 30px;
+  border-bottom: 1px solid #eee;
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+ h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.icon-title {
+  width: 24px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.filters {
+  padding: 20px;
+  background: #fff;
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.filters .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.filters .dropdown,
+.filters .search-box,
+.filter-btn {
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f9fafb;
+  transition: all 0.3s ease;
+  min-width: 150px;
+}
+
+.filter-btn {
+  cursor: pointer;
+  border: none;
+  background-color: #f1f5f9;
+  color: #333;
+}
+
+.filter-btn:hover,
+.filters .dropdown:hover,
+.filters .search-box:hover {
+  background-color: #e2e8f0;
+}
+
+.filter-btn.active {
+  background-color: #2563eb;
+  color: white;
+}
+
+.filters .search-box {
+  flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+  .filters .row {
+    flex-direction: column;
+  }
+
+  .filters .dropdown,
+  .filters .search-box,
+  .filter-btn {
+    width: 100%;
+  }
+}
+
+
+.search-box {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.dropdown {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #cccccc;
+}
+
+.complaints {
+  margin: 20px;
+}
+
+/* ===== Complaint Card Styles ===== */
+.complaints {
+  display: grid;  /* استخدام grid لتوزيع البطاقات بشكل منظم */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));  /* كل عمود بطول 300px ويشغل باقي المساحة بالتساوي */
+  gap: 20px;  /* المسافة بين البطاقات */
+  margin: 20px;
+}
+
+/* ===== Complaint Card Styles ===== */
+.complaint {
+  background: white;
+  padding: 16px;  /* زيادة الحشو قليلاً لزيادة المساحة داخل البطاقة */
+  margin: 0;  /* لا حاجة لهامش بين البطاقات داخل grid */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  height: auto;  /* الارتفاع يتكيف مع المحتوى */
+}
+
+/* تعديل رأس البطاقة */
+.complaint-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+/* تعديل الشارة */
+.badge {
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.badge.yellow {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.badge.blue {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+/* تعديل جسم البطاقة */
+.complaint-body {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* تعديل الأعمدة داخل الجسم */
+.details, .info {
+  flex: 1;
+  min-width: 120px;  /* زيادة عرض الأعمدة بحيث يكون هناك مساحة كافية */
+}
+
+/* تعديل الأزرار */
+.actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+/* تحسين التخطيط المتجاوب */
+@media (max-width: 768px) {
+  .complaints {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));  /* تقليل العرض في الشاشات الصغيرة */
+    gap: 15px;  /* تقليل المسافة بين البطاقات */
+  }
+
+  .complaint {
+    padding: 14px;  /* تقليل الحشو داخل البطاقة في الشاشات الصغيرة */
+  }
+
+  .details, .info {
+    min-width: 100px;  /* تقليل الحد الأدنى للعرض */
+  }
+}
+
+
+
+.btn.blue {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn.green {
+  background: #10b981;
+  color: white;
+}
+
+.btn.gray {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.btn.track {
+  background: white;
+  border: 1px solid #d1d5db;
+  color: #111827;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px;
+  background: white;
+  border-top: 1px solid #eee;
+}
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+.export-btn.print {
+  background-color: #424954;
+  color: white;
+}
+
+
+.page-header {
+  position: relative;
+  height: 50px;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+/* العنوان في المنتصف */
+.page-title {
+  position: absolute;
+  right: 50%;
+  transform: translateX(50%);
+  font-size: 24px;
+  color: #003366;
+  font-weight: bold;
+  margin: 0;
+}
+
+
+
+/* النص تحت العنوان */
+.page-subtitle {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* زر العودة في أقصى اليسار */
+.back-button {
+  position: absolute;
+  left: 20px;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.back-button a {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #4A5568;
+  font-size: 14px;
+}
+
+.back-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* ===== رسالة عدم وجود شكاوى ===== */
+.no-complaints {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 8px;
+  margin: 20px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.no-complaints p {
+  font-size: 18px;
+  color: #666;
+  margin: 0;
+}
+
+/* تحسينات للتصميم المتجاوب */
+@media (max-width: 768px) {
+  .no-complaints {
+    padding: 40px 15px;
+  }
+  
+  .no-complaints p {
+    font-size: 16px;
+  }
+}
+
+/* إضافة CSS للنافذة المنبثقة وزر تحويل البلاغ  */
+
+/* زر تحويل البلاغ  */
+.btn.orange {
+    background-color: #ff9800;
+    color: white;
+}
+
+.btn.orange:hover {
+    background-color: #f57c00;
+}
+
+/* النافذة المنبثقة */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 8px;
+    padding: 0;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-bottom: 1px solid #dee2e6;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.close-modal:hover {
+    background-color: #e9ecef;
+    color: #333;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-body p {
+    margin-bottom: 15px;
+    color: #555;
+    font-size: 14px;
+}
+
+.transfer-select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    background-color: white;
+}
+
+.transfer-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* ===== Common Button Styles ===== */
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+  background-color: #1e88e5;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #1565c0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(30, 136, 229, 0.3);
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: #ffffff;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: #ffffff;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* ===== Common Form Styles ===== */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #1e88e5;
+  box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.1);
+}
+
+/* ===== Common Card Styles ===== */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid #e9ecef;
+}
+
+.card-header {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+  .header {
+    padding: 10px 15px;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+  
+  .card {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.modal-actions .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.modal-actions .btn.blue {
+    background-color: #007bff;
+    color: white;
+}
+
+.modal-actions .btn.blue:hover {
+    background-color: #0056b3;
+}
+
+.modal-actions .btn.gray {
+    background-color: #6c757d;
+    color: white;
+}
+
+.modal-actions .btn.gray:hover {
+    background-color: #545b62;
+}
+
+/* ===== تعديل الأزرار داخل البطاقة ===== */
+.actions .btn {
+  padding: 5px 10px;  /* تقليل الحشو لجعل الزر أصغر */
+  font-size: 12px;  /* تقليل حجم النص */
+  border-radius: 6px;  /* الحفاظ على الزوايا المنحنية */
+  height: auto;  /* السماح للزر بالتكيف مع المحتوى */
+}
+
+.btn.blue, .btn.green, .btn.gray, .btn.track {
+  padding: 5px 10px;  /* التأكد من أن كل الأزرار ستكون بنفس الحجم */
+  font-size: 12px;  /* الحفاظ على حجم النص الأصغر */
+}
+/* === تصغير زر البحث داخل شريط الفلاتر === */
+.filters .filter-btn{
+  min-width: auto;        /* يلغي 150px السابقة */
+  padding: 6px 10px;      /* كان 10px 14px */
+  font-size: 13px;        /* كان 14px */
+  height: 36px;           /* ارتفاع أقل */
+  line-height: 1.1;
+  border-radius: 6px;
+}
+
+/* (اختياري) تصغير خانة البحث نفسها إن كنت تقصدها */
+.filters .search-box{
+  padding: 6px 10px;      /* كان 10px */
+  font-size: 13px;        /* كان 14px */
+  height: 36px;           
+  border-radius: 6px;
+}
+/* أصغر من السابق */
+.filters .filter-btn{
+  min-width: unset !important;
+  padding: 4px 8px !important;   /* كان 6px 10px */
+  font-size: 12px !important;    /* كان 13px */
+  height: 30px !important;       /* كان 36px */
+  border-radius: 5px !important;
+  line-height: 1 !important;
+}
+
+/* (اختياري) نسخة مصغّرة جدًا: أضِف class="filter-btn tiny" لنفس الزر */
+.filters .filter-btn.tiny{
+  padding: 2px 6px !important;
+  font-size: 11px !important;
+  height: 26px !important;
+  border-radius: 4px !important;
+}
+
+/* (اختياري) لو تبغى الحقل نفسه أصغر ليتناغم مع الزر */
+.filters .search-box{
+  padding: 5px 8px !important;
+  font-size: 12px !important;
+  height: 30px !important;
+  border-radius: 5px !important;
+}
+
+/* إذا تبغيه أقصر جدًا */
+.filters .filter-btn.micro{
+  height: 22px !important;
+  padding: 1px 6px !important;
+  font-size: 11px !important;
+  border-radius: 4px !important;
+}
+
+/* تصغير عرض خانة البحث إلى ~50% من صف الفلاتر على الشاشات الكبيرة */
+@media (min-width: 769px){
+  .filters .row .search-box{
+    flex: 0 0 40% !important;   /* جرّب 40 أو 35 */
+    max-width: 40% !important;
+    /* أو بدل النسبة بقيمة ثابتة: */
+    /* flex: 0 0 420px !important; max-width: 420px !important; */
+  }
+}
+/* === Compact Filters Bar (تصغير شامل) === */
+.filters{
+  padding: 8px 12px !important;     /* كان كبير – نقلله */
+  margin-bottom: 10px !important;
+  border-radius: 10px !important;
+}
+
+.filters .row{
+  gap: 8px !important;              /* تقليل المسافة بين العناصر */
+}
+
+/* تقليل الحد الأدنى لعرض كل عنصر داخل صف الفلاتر */
+.filters .row > *{
+  min-width: 110px !important;      /* كان 150px عادةً – خليه أصغر */
+}
+
+/* ارتفاع موحّد لكل عناصر الشريط (قوائم، زر، حقل البحث) */
+.filters .search-box,
+.filters .filter-btn,
+.filters select,
+.filters .dropdown,
+.filters .dropdown .selected{
+  height: 28px !important;          /* ارتفاع أصغر */
+  line-height: 28px !important;     /* للتوسيط العمودي في العناصر النصية */
+  padding: 2px 8px !important;      /* حواف أقل */
+  font-size: 12px !important;       /* خط أصغر */
+  border-radius: 6px !important;
+}
+
+/* placeholder أصغر ليتناسق */
+.filters .search-box::placeholder{
+  font-size: 12px !important;
+}
+
+/* على الشاشات الصغيرة خلّه يرجع مريح */
+@media (max-width: 768px){
+  .filters{
+    padding: 10px 12px !important;
+  }
+  .filters .row{
+    gap: 10px !important;
+  }
+  .filters .row > *{
+    min-width: 100% !important;     /* سطر كامل لكل عنصر على الموبايل */
+  }
+}
+/* اجعل فلتر التاريخ آخر عنصر بصريًا في RTL */
+.filters .row .date-filter{
+  order: 99;                 /* يظهر يسارًا في RTL */
+}
+
+/* ادفعه للحافة اليسرى تمامًا */
+[dir="rtl"] .filters .row .date-filter{ margin-left: auto; }
+[dir="ltr"] .filters .row .date-filter{ margin-right: auto; }
+
+/* شريط فلاتر مدمج وصغير (يتماشى مع تقليصك السابق) */
+.filters{
+  padding: 8px 12px !important;
+}
+.filters .row{
+  gap: 8px !important;
+}
+.filters .search-box,
+.filters .dropdown{
+  height: 28px !important;
+  line-height: 28px !important;
+  padding: 2px 8px !important;
+  font-size: 12px !important;
+  border-radius: 6px !important;
+}
+
+/* لا تجعل خانة البحث تتمدّد أكثر من اللازم (حتى يبقى للتاريخ مكانه على اليسار) */
+@media (min-width: 769px){
+  .filters .search-box{ flex: 0 0 40% !important; max-width: 40% !important; } /* عدّلها 35%/45% حسب ذوقك */
+}
+/* حرّك فلتر التاريخ (#dateFilter) لأقصى اليسار داخل شريط الفلاتر */
+.filters{ position: relative; }  /* مرجع التموضع */
+
+#dateFilter{
+  position: absolute;
+  top: 10px;           /* نزّل/ارفع حسب رغبتك */
+  left: 12px;          /* لأقصى اليسار (RTL) */
+  width: 140px;        /* عرض أصغر مناسب */
+  min-width: 140px !important;
+  z-index: 2;          /* فوق بقية العناصر */
+}
+
+/* اترك فراغًا يسار الشريط عشان ما تتداخل العناصر مع فلتر التاريخ */
+[dir="rtl"] .filters{ padding-left: 160px; }
+[dir="ltr"] .filters{ padding-right: 160px; }
+
+/* لا تترك مسافة تحت الصف الأول (اللي كان يحوي التاريخ) */
+.filters .row:first-child{ margin-bottom: 0 !important; }
+
+/* على الشاشات الصغيرة رجّعه لوضعه الطبيعي */
+@media (max-width: 768px){
+  #dateFilter{
+    position: static;
+    width: auto;
+    min-width: 150px !important;
+  }
+  [dir="rtl"] .filters{ padding-left: 12px; }
+  [dir="ltr"] .filters{ padding-right: 12px; }
+  .filters .row:first-child{ margin-bottom: 12px !important; }
+}
+/* ثبّت ترتيب القوائم: الحالة (1) ← القسم (2) ← نوع البلاغ  (3) ← التاريخ (4) */
+.filters .row select{ order: 0; }           /* افتراضي */
+.filters .row select:nth-of-type(1){ order: 1; }  /* الحالة */
+.filters .row select:nth-of-type(2){ order: 2; }  /* القسم */
+.filters .row select:nth-of-type(3){ order: 3; }  /* نوع البلاغ  */
+#dateFilter{ order: 4; margin-inline-start: 8px; }/* التاريخ ملاصق تقريبًا */
+
+/* لو فيه search-box داخل نفس الصف: خلّه ياخذ 40% عشان يترك مجال للقوائم */
+@media (min-width: 769px){
+  .filters .search-box{ flex: 0 0 40% !important; max-width: 40% !important; }
+}
+/* حجز مساحة يسار الشريط */
+[dir="rtl"] .filters{ padding-left: 260px !important; }
+
+/* قرّب التاريخ من "نوع البلاغ " بتقريب left */
+#dateFilter{
+  position: absolute;
+  top: 10px;
+  left: 210px !important;   /* جرّب 200–240px حتى يصير مناسب لشاشتك */
+  width: 140px;
+  min-width: 140px !important;
+}
+/* قرب التاريخ من نوع البلاغ  فقط (بدون لمس بقية العناصر) */
+@media (min-width: 992px){
+  .filters .row{ gap: 6px !important; }              /* كان 8px أو أكثر */
+
+  /* في RTL: الطرف الذي يواجه "نوع البلاغ " هو جهة البداية (right) */
+  #dateFilter{
+    margin-inline-start: -6px !important;            /* قرّبه 6px باتجاه "نوع البلاغ " */
+  }
+}
+
+/* لو تبي أقرب شوي بعد، زِد السالب إلى -8px أو -10px */
+/* دمج صفّي الفلاتر بصريًا في صف واحد */
+.filters{ display:flex !important; flex-wrap:wrap; gap:8px !important; align-items:center; }
+.filters .row{ display: contents !important; }   /* يجعل عناصر الصف كأنها أبناء مباشرون */
+
+/* أحجام مدمجة موحدة */
+.filters .dropdown,
+.filters .search-box{
+  min-width: 130px !important;
+  height: 28px !important;
+  padding: 2px 8px !important;
+  font-size: 12px !important;
+  border-radius: 6px !important;
+}
+
+/* ترتيب العناصر: الحالة(1) ← القسم(2) ← نوع البلاغ (3) ← التاريخ(4) ← خانة البحث(5) */
+.filters .row:nth-of-type(2) select.dropdown:nth-of-type(1){ order:1; } /* الحالة */
+.filters .row:nth-of-type(2) select.dropdown:nth-of-type(2){ order:2; } /* القسم */
+.filters .row:nth-of-type(2) select.dropdown:nth-of-type(3){ order:3; } /* نوع البلاغ  */
+#dateFilter{ order:4; margin-inline-start:6px !important; position: static !important; left:auto !important; top:auto !important; }
+
+/* خلي خانة البحث في الطرف الأخير وتأخذ حيزًا معقولًا */
+@media (min-width: 992px){
+  .filters .search-box{ order:5; flex: 0 1 36% !important; max-width:36% !important; }
+}
+
+/* على الشاشات الصغيرة ارجع للسلوك العمودي المعتاد */
+@media (max-width: 768px){
+  .filters{ display:block !important; }
+  .filters .row{ display:flex !important; flex-direction:column; gap:10px !important; }
+  .filters .dropdown, .filters .search-box{ width:100% !important; min-width:0 !important; }
+}
+
+/* اجمع عناصر صفوف الفلاتر معًا وفعّل الترتيب */
+.filters{
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 8px !important;
+  align-items: center;
+}
+.filters .row{ display: contents !important; }  /* ما نغيّر DOM */
+
+/* خلي خانة البحث أول عنصر */
+.filters .search-box{
+  order: -1 !important;                  /* أقل قيمة = أول عنصر */
+  flex: 0 1 40% !important;              /* خذ 40% تقريبًا (عدّلها لو تبغى) */
+  max-width: 40% !important;
+}
+
+/* بقية عناصر الفلاتر بعد البحث */
+.filters select.dropdown,
+#dateFilter,
+.filters .filter-btn{
+  order: 0 !important;
+}
+
+/* مسافة صغيرة بين البحث وأول قائمة بعده */
+.filters .search-box{ margin-inline-end: 6px !important; }
+
+/* على الشاشات الصغيرة: عمودي وكامل العرض */
+@media (max-width: 768px){
+  .filters{ display: block !important; }
+  .filters .row{ display: flex !important; flex-direction: column; gap: 10px !important; }
+  .filters .search-box{
+    order: 0 !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    margin-inline-end: 0 !important;
+  }
+}
+
+/* ===== Print Styles ===== */
+@media print {
+  /* إخفاء العناصر غير المرغوب فيها */
+  .header,
+  .page-header,
+  .filters,
+  .footer,
+  .modal-overlay,
+  .lang-toggle-btn,
+  .back-button {
+    display: none !important;
+  }
+
+  /* إعدادات الصفحة */
+  @page {
+    margin: 0.2cm;
+    size: A4;
+  }
+
+  /* إعدادات الجسم */
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 8pt;
+    line-height: 1.1;
+    direction: rtl;
+    font-family: 'Tajawal', Arial, sans-serif;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* تنسيق قسم البلاغات */
+  .complaints {
+    background: white !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 2px !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+    page-break-inside: avoid;
+  }
+
+  /* إضافة عنوان للصفحة المطبوعة */
+  .complaints::before {
+    content: "قائمة البلاغات العامة";
+    display: block;
+    text-align: center;
+    font-size: 12pt;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    padding-bottom: 3px;
+    border-bottom: 2px solid #333;
+  }
+
+  /* إضافة تذييل للصفحة */
+  .complaints::after {
+    content: "تم طباعة هذا التقرير - " attr(data-print-date);
+    display: block;
+    text-align: center;
+    font-size: 7pt;
+    color: #666;
+    margin-top: 5px;
+    padding-top: 3px;
+    border-top: 1px solid #ccc;
+  }
+
+  /* تنسيق بطاقات البلاغات */
+  .complaint {
+    background: white !important;
+    border: 1px solid #ddd !important;
+    border-radius: 2px !important;
+    margin: 2px 0 !important;
+    padding: 3px !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* تنسيق رأس البطاقة */
+  .complaint-header {
+    border-bottom: 1px solid #2c3e50 !important;
+    padding-bottom: 2px !important;
+    margin-bottom: 3px !important;
+    background: #f8f9fa !important;
+    padding: 3px !important;
+    border-radius: 2px !important;
+  }
+
+  .complaint-title {
+    font-size: 11pt !important;
+    font-weight: bold !important;
+    color: #2c3e50 !important;
+    margin: 0 0 1px 0 !important;
+  }
+
+  .complaint-date {
+    font-size: 8pt !important;
+    color: #6c757d !important;
+    margin: 0 0 1px 0 !important;
+  }
+
+  .complaint-status {
+    background: #e3f2fd !important;
+    color: #1976d2 !important;
+    border: 1px solid #1976d2 !important;
+    padding: 1px 4px !important;
+    font-size: 7pt !important;
+    font-weight: bold !important;
+    border-radius: 8px !important;
+    display: inline-block !important;
+  }
+
+  /* تنسيق معلومات البلاغ */
+  .complaint-body {
+    margin: 2px 0 !important;
+  }
+
+  .info {
+    margin: 2px 0 !important;
+  }
+
+  .info h3 {
+    font-size: 9pt !important;
+    font-weight: bold !important;
+    color: #333 !important;
+    margin: 1px 0 !important;
+  }
+
+  .info p {
+    font-size: 8pt !important;
+    color: #555 !important;
+    margin: 1px 0 !important;
+    padding: 1px 3px !important;
+    background: #f8f9fa !important;
+    border-radius: 1px !important;
+    border: 1px solid #e9ecef !important;
+  }
+
+  /* تنسيق تفاصيل البلاغ */
+  .complaint-details {
+    background: #f9f9f9 !important;
+    border: 1px solid #ccc !important;
+    padding: 2px !important;
+    margin: 2px 0 !important;
+    font-size: 8pt !important;
+    line-height: 1.2 !important;
+  }
+
+  /* تنسيق أزرار الإجراءات */
+  .actions {
+    display: none !important; /* إخفاء الأزرار في الطباعة */
+  }
+
+  /* تنسيق المرفقات */
+  .attachments {
+    font-size: 8pt !important;
+    color: #333 !important;
+    margin: 1px 0 !important;
+  }
+
+  /* منع كسر الصفحة داخل العناصر المهمة */
+  .complaint {
+    page-break-inside: avoid;
+  }
+
+  /* تنسيق إضافي للعناصر الصغيرة */
+  .department-badge,
+  .type-badge {
+    font-size: 7pt !important;
+    padding: 1px 2px !important;
+    margin: 0 1px !important;
+  }
+
+  /* تنسيق الجدول إذا كان موجود */
+  .complaints table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 7pt !important;
+  }
+
+  .complaints th,
+  .complaints td {
+    padding: 1px !important;
+    border: 1px solid #ddd !important;
+    text-align: center !important;
+  }
+
+  .complaints thead {
+    background: #f0f0f0 !important;
+    font-weight: bold !important;
+  }
+}

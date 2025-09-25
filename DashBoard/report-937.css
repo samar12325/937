@@ -1,0 +1,595 @@
+
+        /* Default body styles, will be overridden by lang-ar/lang-en */
+        body {
+            direction: rtl;
+            background-color: #f0f2f5; /* Light gray background */
+        }
+
+        /* User-provided CSS for language-specific body styles */
+        body.lang-ar {
+            font-family: 'Tajawal', sans-serif;
+            text-align: right; /* Adjusted for RTL layout */
+        }
+
+        body.lang-en {
+            font-family: serif;
+            text-align: left; /* Adjusted for LTR layout */
+        }
+
+        /* User-provided CSS for header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: white;
+            height: 75px; /* Explicitly set height for stability */
+            padding: 0 30px; /* Remove vertical padding, height handles it */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex; /* Use flex to align content vertically */
+            align-items: center; /* Center content vertically */
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%; /* Ensure content fills the header width */
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e88e5;
+        }
+
+        .header-logo {
+            height: 45px;
+        }
+
+        .lang-toggle-btn {
+            background-color: #3686cbbc; /* أزرق */
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .lang-toggle-btn:hover {
+            background-color: #1565c0; /* أزرق غامق عند الهوفر */
+        }
+
+        .lang-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* User-provided CSS for aside (sidebar) */
+        aside {
+            width: 250px;
+            min-width: 250px; /* Ensure it maintains width */
+            background-color: white;
+            height: 100vh;
+            border-left: 1px solid #e0e0e0; /* Original border-left */
+            padding: 20px;
+            position: fixed; /* Make sidebar fixed */
+            top: 0;
+            right: 0; /* Position on the right for RTL */
+            padding-top: 75px; /* Adjust to fixed header height */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Add subtle shadow */
+        }
+
+        aside ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        aside li {
+            padding: 12px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            color: #333; /* Default text color */
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        aside li a {
+            display: block; /* Make the entire li clickable via the anchor */
+            text-decoration: none;
+            color: inherit; /* Inherit color from parent li */
+        }
+
+        aside li.active {
+            background-color: #e6f0ff;
+            color: #007bff; /* Active color */
+        }
+        
+        aside li:hover {
+            background-color: #e6f0ff; /* Keep background change */
+            color: #DC2626; /* Changed to Tailwind red-600 for a very noticeable hover effect on text */
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        .modal-content {
+            max-height: 80vh; /* Limit modal height */
+            overflow-y: auto; /* Enable scrolling for content */
+        }
+
+        /* Custom styles for the dropdown to match the image */
+        .custom-select-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%; /* Full width as in image */
+            max-width: 200px; /* Limit width */
+        }
+
+        .custom-select {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+
+        .custom-select:hover {
+            border-color: #a0aec0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .custom-select-options {
+            position: absolute;
+            top: 100%; /* Position below the select box */
+            left: 0;
+            right: 0;
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 500; /* Above other content */
+            max-height: 200px;
+            overflow-y: auto;
+            display: none; /* Hidden by default */
+        }
+
+        .custom-select-options.open {
+            display: block;
+        }
+
+        .custom-select-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .custom-select-option:hover {
+            background-color: #f0f2f5;
+        }
+
+        /* Specific styles for horizontal bar charts */
+        .chart-container {
+            background-color: white;
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* shadow-md */
+            padding: 1.5rem; /* p-6 */
+        }
+
+        /* Add Section Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .modal-close:hover {
+            background-color: #f3f4f6;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+
+        /* Department Search Input Styles */
+        .department-search-input {
+            font-family: inherit;
+            font-size: 16px;
+            color: #333;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            border: none;
+            outline: none;
+            text-align: right;
+        }
+
+        .department-search-input::placeholder {
+            color: #9ca3af;
+            opacity: 1;
+        }
+
+        .department-search-input:focus {
+            background: transparent;
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* Custom select with search functionality */
+        .custom-select-wrapper.has-search .custom-select {
+            position: relative;
+        }
+
+        .custom-select-wrapper.has-search .custom-select-options {
+            max-height: 300px;
+        }
+
+        /* Highlight matching text in search results */
+        .custom-select-option.highlighted {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        /* Search input focus state */
+        .custom-select-wrapper:focus-within .custom-select {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+
+        .btn-primary:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        /* Dropdown Divider */
+        .custom-select-divider {
+            height: 1px;
+            background-color: #e5e7eb;
+            margin: 8px 0;
+        }
+
+        /* Add Section Option */
+        .add-section-option {
+            color: #3b82f6;
+            font-weight: 500;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 8px;
+            padding-top: 8px;
+        }
+
+        .add-section-option:hover {
+            background-color: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .add-section-option i {
+            color: #3b82f6;
+        }
+
+        /* Loading state for dropdown */
+        .custom-select-option.loading {
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        /* Error state for dropdown */
+        .custom-select-option.error {
+            color: #dc2626;
+            font-style: italic;
+        }
+
+        /* Add section option styling */
+        .custom-select-divider {
+            height: 1px;
+            background-color: #e5e7eb;
+            margin: 8px 0;
+        }
+
+        .add-section-option {
+            background-color: #f0f9ff;
+            color: #0369a1;
+            font-weight: 500;
+            border-top: 1px solid #e0f2fe;
+        }
+
+        .add-section-option:hover {
+            background-color: #e0f2fe;
+            color: #0c4a6e;
+        }
+
+        /* Modal styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .modal-close:hover {
+            background-color: #f3f4f6;
+            color: #374151;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+
+        /* Department Search Input Styles */
+        .department-search-input {
+            font-family: inherit;
+            font-size: 16px;
+            color: #333;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            border: none;
+            outline: none;
+            text-align: right;
+        }
+
+        .department-search-input::placeholder {
+            color: #9ca3af;
+            opacity: 1;
+        }
+
+        .department-search-input:focus {
+            background: transparent;
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* Custom select with search functionality */
+        .custom-select-wrapper.has-search .custom-select {
+            position: relative;
+        }
+
+        .custom-select-wrapper.has-search .custom-select-options {
+            max-height: 300px;
+        }
+
+        /* Highlight matching text in search results */
+        .custom-select-option.highlighted {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        /* Search input focus state */
+        .custom-select-wrapper:focus-within .custom-select {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
